@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\PostManagementSystem",
+    "\\src\\PostManagementSystem\\PostManagementSystem",
+    "\\src\\PostManagementSystem\\PostManagementSystem\\Models"
   ],
-  "SelectedNode": "\\C:\\Users\\samur\\Documents\\GitHub\\Post-Management-System",
+  "SelectedNode": "\\src\\PostManagementSystem\\PostManagementSystem\\Models\\Address.cs",
   "PreviewInSolutionExplorer": false
 }
