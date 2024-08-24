@@ -9,5 +9,12 @@ namespace PostManagementSystem.Data
             : base(options)
         {
         }
+
+        public DbSet<Models.Package> Package { get; set; }
+        public DbSet<Models.PostOffice> PostOffice { get; set; }
+        public DbSet<Models.Address> Address { get; set; }
+        public DbSet<Models.City> City { get; set; }
+        public DbSet<Models.Customer> Customer { get; set; }
+        public DbSet<Models.Status> Status { get; set; }
     }
 }
