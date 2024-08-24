@@ -1,4 +1,4 @@
-To do:
+	To do:
 	TEMAT: Punkt pocztowy/Serwis internetowy firmy kurierskiej
 	
 	Tabele:
@@ -6,17 +6,21 @@ To do:
 		- Punkty poctowe (jako skąd dokąd)
 		- Miasta*
 		- Użytkownicy (odbiór i nadawanie przysyłek)
-		- Administrator punktu (zmiania statusu, kasowanie, zmiana terminów etc.)
+		- Status (przesyłki)
 		- Pojazdy dostawcze (po ID który pojazd odpowiada za paczkę)
 	
 	Wymagania:
-		Ograniczyć ilość paczek na punkt (po rozmiarze?*)
+		- Ograniczyć ilość paczek na punkt (po rozmiarze?*)
+		- przechowywanie w ramach bazy danych informacji na temat nadawcy i odbiorcy. Przechowywanie będą w jednej tabeli jako klienci a zatem przesyłanie w drugą stronę nie wymaga podawania danych
+		- Dane na temat klientów będą zapisywane jedynie wtedy gdy nie są już obecne w bazie danych - trzeba będzie generować hasz na podstawie danych klienta i na tej podstawie identyfikować czy klienta nie ma już w bazie
+		- Adresat/Odbiorca może mieć przypisanych wiele adresów
 	Ograniczenia:
 		- brak punktów pośredniczących
+		- brak systemu płatności za usługę (jedynie nadawanie, śledzenie, odbiór paczek)
 	Diagram:
 		Ilość paczek w danym przedziale czasowym (po gbarycie?)
 	Role:
-		Administrator - zarządzanie tabelami
+		- Administrator punktu (zmiania statusu, kasowanie, zmiana terminów etc., zarządzanie tabelami)
 		Użytkownik - nadawanie i odbieranie paczek
 		
 	PUNKT ALBO PACZKOMAT
@@ -28,3 +32,7 @@ To do:
 		- formularz dodania punktu pocztowego (tylko administrator)
 	
 	Zdjęcia paczek (mała paczka, średnia paczka, duża paczka) - może tabela z typami paczek do tego?
+	
+	Ze względu na system eliminowania duplikatów, proces sprawdzania adresu i danych klienta będzie dość złożony bo będzie trzeba sprawdzić hasz
+	
+	
