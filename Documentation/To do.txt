@@ -1,0 +1,30 @@
+To do:
+	TEMAT: Punkt pocztowy/Serwis internetowy firmy kurierskiej
+	
+	Tabele:
+		- Paczki (data nadania, odbioru, gaabryt skąd, dokąd)
+		- Punkty poctowe (jako skąd dokąd)
+		- Miasta*
+		- Użytkownicy (odbiór i nadawanie przysyłek)
+		- Administrator punktu (zmiania statusu, kasowanie, zmiana terminów etc.)
+		- Pojazdy dostawcze (po ID który pojazd odpowiada za paczkę)
+	
+	Wymagania:
+		Ograniczyć ilość paczek na punkt (po rozmiarze?*)
+	Ograniczenia:
+		- brak punktów pośredniczących
+	Diagram:
+		Ilość paczek w danym przedziale czasowym (po gbarycie?)
+	Role:
+		Administrator - zarządzanie tabelami
+		Użytkownik - nadawanie i odbieranie paczek
+		
+	PUNKT ALBO PACZKOMAT
+	Zobaczyć jaki tryb połączenia z bazą danych bedzie wykorzystywany.
+	
+	PODSTRONY:
+		- szczegóły dla danej paczki
+		- formularz nadania
+		- formularz dodania punktu pocztowego (tylko administrator)
+	
+	Zdjęcia paczek (mała paczka, średnia paczka, duża paczka) - może tabela z typami paczek do tego?
