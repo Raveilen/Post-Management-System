@@ -79,3 +79,6 @@ _[Ss]cripts
 /src/PostManagementSystem/.vs/PostManagementSystem/DesignTimeBuild
 /src/PostManagementSystem/.vs/PostManagementSystem/v17
 /.vs/Post-Management-System/FileContentIndex
+/src/PostManagementSystem/.vs
+/src/PostManagementSystem/PostManagementSystem/PostManagementSystem.csproj
+/src/PostManagementSystem/PostManagementSystem.sln
