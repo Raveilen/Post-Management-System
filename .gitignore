@@ -74,3 +74,7 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+/src/PostManagementSystem/.vs/PostManagementSystem/FileContentIndex
+/src/PostManagementSystem/.vs/PostManagementSystem/CopilotIndices/0.2.1634.3922
+/src/PostManagementSystem/.vs/PostManagementSystem/DesignTimeBuild
+/src/PostManagementSystem/.vs/PostManagementSystem/v17
