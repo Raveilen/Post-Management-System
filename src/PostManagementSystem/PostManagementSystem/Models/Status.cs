@@ -1,7 +1,10 @@
-﻿namespace PostManagementSystem.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PostManagementSystem.Models
 {
     public class Status
     {
+        [Key]
         public Guid ID { get; set; }
 
         public string Name { get; set; }

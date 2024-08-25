@@ -1,8 +1,11 @@
-﻿namespace PostManagementSystem.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PostManagementSystem.Models
 {
     public class PostOffice
     {
-        public Guid ID { get; set; }
+        [Key]
+        public Guid PostOfficeID { get; set; }
 
         public int packageSCapacity { get; set; }
         public int packageMCapacity { get; set; }
