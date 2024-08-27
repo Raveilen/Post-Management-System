@@ -12,15 +12,15 @@ using PostManagementSystem.Data;
 namespace PostManagementSystem.Data.Migrations
 {
     [DbContext(typeof(PostManagementContext))]
-    [Migration("20240825204902_PackageTypePictAdded")]
-    partial class PackageTypePictAdded
+    [Migration("20240827195145_PostaCodeMovedToAddress")]
+    partial class PostaCodeMovedToAddress
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -234,7 +234,6 @@ namespace PostManagementSystem.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ApartmentNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CityID")
@@ -246,6 +245,10 @@ namespace PostManagementSystem.Data.Migrations
 
                     b.Property<long>("HashCode")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -268,10 +271,6 @@ namespace PostManagementSystem.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

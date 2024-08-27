@@ -11,7 +11,7 @@ using PostManagementSystem.Data;
 
 namespace PostManagementSystem.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(PostManagementContext))]
     [Migration("20240825201411_DatabaseSchema")]
     partial class DatabaseSchema
     {
