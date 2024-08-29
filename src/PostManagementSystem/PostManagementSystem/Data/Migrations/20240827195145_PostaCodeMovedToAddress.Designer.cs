@@ -383,7 +383,7 @@ namespace PostManagementSystem.Data.Migrations
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Dimensions")
+                    b.Property<string>("MaxDimensions")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
