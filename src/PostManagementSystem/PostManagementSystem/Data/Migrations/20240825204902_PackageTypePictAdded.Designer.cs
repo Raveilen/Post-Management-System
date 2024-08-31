@@ -11,7 +11,7 @@ using PostManagementSystem.Data;
 
 namespace PostManagementSystem.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(PostManagementContext))]
     [Migration("20240825204902_PackageTypePictAdded")]
     partial class PackageTypePictAdded
     {
@@ -384,7 +384,7 @@ namespace PostManagementSystem.Data.Migrations
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Dimensions")
+                    b.Property<string>("MaxDimensions")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

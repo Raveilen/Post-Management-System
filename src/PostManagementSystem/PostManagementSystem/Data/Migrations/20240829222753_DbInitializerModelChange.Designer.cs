@@ -12,15 +12,15 @@ using PostManagementSystem.Data;
 namespace PostManagementSystem.Data.Migrations
 {
     [DbContext(typeof(PostManagementContext))]
-    [Migration("20240825201411_DatabaseSchema")]
-    partial class DatabaseSchema
+    [Migration("20240829222753_DbInitializerModelChange")]
+    partial class DbInitializerModelChange
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -229,12 +229,11 @@ namespace PostManagementSystem.Data.Migrations
 
             modelBuilder.Entity("PostManagementSystem.Models.Address", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("AddressID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ApartmentNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CityID")
@@ -244,14 +243,15 @@ namespace PostManagementSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("HashCode")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("AddressID");
 
                     b.HasIndex("CityID");
 
@@ -260,22 +260,15 @@ namespace PostManagementSystem.Data.Migrations
 
             modelBuilder.Entity("PostManagementSystem.Models.City", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("CityID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("HashCode")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
+                    b.HasKey("CityID");
 
                     b.ToTable("Cities");
                 });
@@ -288,9 +281,6 @@ namespace PostManagementSystem.Data.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("HashCode")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -311,7 +301,7 @@ namespace PostManagementSystem.Data.Migrations
 
             modelBuilder.Entity("PostManagementSystem.Models.Delivery", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("DeliveryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -336,7 +326,7 @@ namespace PostManagementSystem.Data.Migrations
                     b.Property<DateTime>("StatusUpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ID");
+                    b.HasKey("DeliveryID");
 
                     b.HasIndex("PackageID");
 
@@ -355,34 +345,41 @@ namespace PostManagementSystem.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PackageTypeID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ReceiverID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SenderID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("TypeID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("ID");
+
+                    b.HasIndex("PackageTypeID");
 
                     b.HasIndex("ReceiverID");
 
                     b.HasIndex("SenderID");
-
-                    b.HasIndex("TypeID");
 
                     b.ToTable("Packages");
                 });
 
             modelBuilder.Entity("PostManagementSystem.Models.PackageType", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("PackageTypeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool>("IsFragile")
+                        .HasColumnType("bit");
 
                     b.Property<string>("MaxDimensions")
                         .IsRequired()
@@ -395,14 +392,14 @@ namespace PostManagementSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("PackageTypeID");
 
                     b.ToTable("PackageTypes");
                 });
 
             modelBuilder.Entity("PostManagementSystem.Models.PostOffice", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("PostOfficeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -418,7 +415,7 @@ namespace PostManagementSystem.Data.Migrations
                     b.Property<int>("packageSCapacity")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("PostOfficeID");
 
                     b.HasIndex("AddressID");
 
@@ -427,15 +424,19 @@ namespace PostManagementSystem.Data.Migrations
 
             modelBuilder.Entity("PostManagementSystem.Models.Status", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("StatusID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("StatusID");
 
                     b.ToTable("Statuses");
                 });
@@ -496,7 +497,7 @@ namespace PostManagementSystem.Data.Migrations
                     b.HasOne("PostManagementSystem.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -513,19 +514,19 @@ namespace PostManagementSystem.Data.Migrations
                     b.HasOne("PostManagementSystem.Models.PostOffice", "ReceiverPostOffice")
                         .WithMany()
                         .HasForeignKey("ReceiverPostOfficeID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PostManagementSystem.Models.PostOffice", "SenderPostOffice")
                         .WithMany()
                         .HasForeignKey("SenderPostOfficeID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PostManagementSystem.Models.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Package");
@@ -539,22 +540,22 @@ namespace PostManagementSystem.Data.Migrations
 
             modelBuilder.Entity("PostManagementSystem.Models.Package", b =>
                 {
+                    b.HasOne("PostManagementSystem.Models.PackageType", "Type")
+                        .WithMany()
+                        .HasForeignKey("PackageTypeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PostManagementSystem.Models.Customer", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PostManagementSystem.Models.Customer", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PostManagementSystem.Models.PackageType", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Receiver");

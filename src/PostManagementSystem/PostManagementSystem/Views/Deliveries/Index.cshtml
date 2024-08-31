@@ -1,0 +1,82 @@
+﻿@model IEnumerable<PostManagementSystem.Models.Delivery>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Active Deliveries</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DeliveryID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SenderPostOffice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiverPostOffice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpectedDeliveryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusUpdateDate)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SenderPostOffice.Address.FullAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiverPostOffice.Address.FullAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Package.Type.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedDeliveryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusUpdateDate)
+            </td>
+           
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DeliveryID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DeliveryID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DeliveryID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

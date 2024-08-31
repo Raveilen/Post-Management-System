@@ -4,9 +4,9 @@ using PostManagementSystem.Models;
 
 namespace PostManagementSystem.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class PostManagementContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public PostManagementContext(DbContextOptions<PostManagementContext> options)
             : base(options)
         {
         }
