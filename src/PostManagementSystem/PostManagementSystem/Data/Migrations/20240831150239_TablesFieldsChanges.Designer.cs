@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PostManagementSystem.Data;
 
@@ -11,9 +12,11 @@ using PostManagementSystem.Data;
 namespace PostManagementSystem.Data.Migrations
 {
     [DbContext(typeof(PostManagementContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240831150239_TablesFieldsChanges")]
+    partial class TablesFieldsChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,7 +341,7 @@ namespace PostManagementSystem.Data.Migrations
 
             modelBuilder.Entity("PostManagementSystem.Models.Package", b =>
                 {
-                    b.Property<Guid>("PackageID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -351,7 +354,7 @@ namespace PostManagementSystem.Data.Migrations
                     b.Property<Guid>("SenderID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("PackageID");
+                    b.HasKey("ID");
 
                     b.HasIndex("PackageTypeID");
 

@@ -18,7 +18,7 @@ namespace PostManagementSystem.Models
         public City City { get; set; }
 
         private string apartmentPart => ApartmentNumber != null ? "m. " + ApartmentNumber : "";
-        public string FullAddress => $"ul. {Street} {DwellingNumber} {ApartmentNumber}, {PostalCode} {City.Name}";
+        public string FullAddress => $"ul. {Street} {DwellingNumber} {apartmentPart}, {PostalCode} {City.Name}";
 
         //key for adresses identification (check if unique)
         public string AddressKey => $"{Street}{DwellingNumber}{ApartmentNumber}{PostalCode}{City.Name}";

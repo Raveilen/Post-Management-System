@@ -7,7 +7,7 @@ namespace PostManagementSystem.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid ID { get; set; }
+        public Guid PackageID { get; set; }
 
         public Guid SenderID { get; set; }
         public Customer Sender { get; set; }
