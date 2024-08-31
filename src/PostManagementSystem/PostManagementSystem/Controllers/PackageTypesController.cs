@@ -10,32 +10,22 @@ using PostManagementSystem.Models;
 
 namespace PostManagementSystem.Controllers
 {
-    public class DeliveriesController : Controller
+    public class PackageTypesController : Controller
     {
         private readonly PostManagementContext _context;
 
-        public DeliveriesController(PostManagementContext context)
+        public PackageTypesController(PostManagementContext context)
         {
             _context = context;
         }
 
-        // GET: Deliveries
+        // GET: PackageTypes
         public async Task<IActionResult> Index()
         {
-            var postManagementContext = _context.Deliveries
-                .Include(d => d.Status)
-                .Include(d => d.ReceiverPostOffice)
-                .ThenInclude(po => po.Address)
-                .ThenInclude(a => a.City)
-                .Include(d => d.SenderPostOffice)
-                .ThenInclude(po => po.Address)
-                .ThenInclude(a => a.City)
-                .Include(d => d.Package)
-                .ThenInclude(p => p.Type);
-            return View(await postManagementContext.ToListAsync());
+            return View(await _context.PackageTypes.ToListAsync());
         }
 
-        // GET: Deliveries/Details/5
+        // GET: PackageTypes/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -43,40 +33,57 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries
-                .FirstOrDefaultAsync(m => m.DeliveryID == id);
-            if (delivery == null)
+            var packageType = await _context.PackageTypes
+                .FirstOrDefaultAsync(m => m.PackageTypeID == id);
+            if (packageType == null)
             {
                 return NotFound();
             }
 
-            return View(delivery);
+            return View(packageType);
         }
 
-        // GET: Deliveries/Create
+        // GET: PackageTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Deliveries/Create
+        //GET: PackageTypes/Image
+        public async Task<IActionResult> GetImage(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var packageType = await _context.PackageTypes.FindAsync(id);
+            if (packageType == null)
+            {
+                return NotFound();
+            }
+
+            return File(packageType.Image, "image/jpg");
+        }
+
+        // POST: PackageTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DeliveryID,CreatedDate,ExpectedDeliveryDate,StatusUpdateDate")] Delivery delivery)
+        public async Task<IActionResult> Create([Bind("PackageTypeID,Name,MaxWeight,MaxDimensions,IsFragile,Cost,Image")] PackageType packageType)
         {
             if (ModelState.IsValid)
             {
-                delivery.DeliveryID = Guid.NewGuid();
-                _context.Add(delivery);
+                packageType.PackageTypeID = Guid.NewGuid();
+                _context.Add(packageType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(delivery);
+            return View(packageType);
         }
 
-        // GET: Deliveries/Edit/5
+        // GET: PackageTypes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -84,22 +91,22 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries.FindAsync(id);
-            if (delivery == null)
+            var packageType = await _context.PackageTypes.FindAsync(id);
+            if (packageType == null)
             {
                 return NotFound();
             }
-            return View(delivery);
+            return View(packageType);
         }
 
-        // POST: Deliveries/Edit/5
+        // POST: PackageTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("DeliveryID,CreatedDate,ExpectedDeliveryDate,StatusUpdateDate")] Delivery delivery)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PackageTypeID,Name,MaxWeight,MaxDimensions,IsFragile,Cost,Image")] PackageType packageType)
         {
-            if (id != delivery.DeliveryID)
+            if (id != packageType.PackageTypeID)
             {
                 return NotFound();
             }
@@ -108,12 +115,12 @@ namespace PostManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(delivery);
+                    _context.Update(packageType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeliveryExists(delivery.DeliveryID))
+                    if (!PackageTypeExists(packageType.PackageTypeID))
                     {
                         return NotFound();
                     }
@@ -124,10 +131,10 @@ namespace PostManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(delivery);
+            return View(packageType);
         }
 
-        // GET: Deliveries/Delete/5
+        // GET: PackageTypes/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -135,34 +142,34 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries
-                .FirstOrDefaultAsync(m => m.DeliveryID == id);
-            if (delivery == null)
+            var packageType = await _context.PackageTypes
+                .FirstOrDefaultAsync(m => m.PackageTypeID == id);
+            if (packageType == null)
             {
                 return NotFound();
             }
 
-            return View(delivery);
+            return View(packageType);
         }
 
-        // POST: Deliveries/Delete/5
+        // POST: PackageTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var delivery = await _context.Deliveries.FindAsync(id);
-            if (delivery != null)
+            var packageType = await _context.PackageTypes.FindAsync(id);
+            if (packageType != null)
             {
-                _context.Deliveries.Remove(delivery);
+                _context.PackageTypes.Remove(packageType);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DeliveryExists(Guid id)
+        private bool PackageTypeExists(Guid id)
         {
-            return _context.Deliveries.Any(e => e.DeliveryID == id);
+            return _context.PackageTypes.Any(e => e.PackageTypeID == id);
         }
     }
 }

@@ -25,10 +25,10 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Package)
+                @Html.DisplayNameFor(model => model.Status.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Package.Type)
+                @Html.DisplayNameFor(model => model.Package)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
@@ -39,8 +39,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.StatusUpdateDate)
             </th>
-           
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -56,10 +54,27 @@
                 @Html.DisplayFor(modelItem => item.ReceiverPostOffice.Address.FullAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status.Name)
+                @if (item.Status.Image != null)
+                {
+                    <img src="@Url.Action("GetImage", "Status", new { id = item.Status.StatusID })" alt="Status Image" width="60" height="40" />
+                }
+                else
+                {
+                    <p>No image available</p>
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Package.Type.Image)
+                    @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+                @if (item.Package.Type.Image != null)
+                {
+                    <img src="@Url.Action("GetImage", "PackageTypes", new { id = item.Package.Type.PackageTypeID })" alt="Package Image" width="50" height="50" />
+                }
+                else
+                {
+                    <p>No image available</p>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)

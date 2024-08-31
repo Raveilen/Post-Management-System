@@ -1,0 +1,59 @@
+﻿@model IEnumerable<PostManagementSystem.Models.PostOffice>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Post Offices</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PostOfficeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.FullAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.packageSCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.packageMCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.packageLCapacity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostOfficeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.FullAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.packageSCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.packageMCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.packageLCapacity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PostOfficeID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PostOfficeID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PostOfficeID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

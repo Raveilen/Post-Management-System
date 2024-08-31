@@ -321,7 +321,7 @@ namespace PostManagementSystem.Data
                 var temp = context.PostOffices.ToList();
             }
 
-
+            //debug info
             var assetsPath = ImageConverter.pathToAssestDirectory;
 
             //Statuses

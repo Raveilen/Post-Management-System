@@ -10,32 +10,23 @@ using PostManagementSystem.Models;
 
 namespace PostManagementSystem.Controllers
 {
-    public class DeliveriesController : Controller
+    public class PostOfficesController : Controller
     {
         private readonly PostManagementContext _context;
 
-        public DeliveriesController(PostManagementContext context)
+        public PostOfficesController(PostManagementContext context)
         {
             _context = context;
         }
 
-        // GET: Deliveries
+        // GET: PostOffices
         public async Task<IActionResult> Index()
         {
-            var postManagementContext = _context.Deliveries
-                .Include(d => d.Status)
-                .Include(d => d.ReceiverPostOffice)
-                .ThenInclude(po => po.Address)
-                .ThenInclude(a => a.City)
-                .Include(d => d.SenderPostOffice)
-                .ThenInclude(po => po.Address)
-                .ThenInclude(a => a.City)
-                .Include(d => d.Package)
-                .ThenInclude(p => p.Type);
+            var postManagementContext = _context.PostOffices.Include(p => p.Address).ThenInclude(a => a.City);
             return View(await postManagementContext.ToListAsync());
         }
 
-        // GET: Deliveries/Details/5
+        // GET: PostOffices/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -43,40 +34,43 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries
-                .FirstOrDefaultAsync(m => m.DeliveryID == id);
-            if (delivery == null)
+            var postOffice = await _context.PostOffices
+                .Include(p => p.Address)
+                .FirstOrDefaultAsync(m => m.PostOfficeID == id);
+            if (postOffice == null)
             {
                 return NotFound();
             }
 
-            return View(delivery);
+            return View(postOffice);
         }
 
-        // GET: Deliveries/Create
+        // GET: PostOffices/Create
         public IActionResult Create()
         {
+            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID");
             return View();
         }
 
-        // POST: Deliveries/Create
+        // POST: PostOffices/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DeliveryID,CreatedDate,ExpectedDeliveryDate,StatusUpdateDate")] Delivery delivery)
+        public async Task<IActionResult> Create([Bind("PostOfficeID,packageSCapacity,packageMCapacity,packageLCapacity,AddressID")] PostOffice postOffice)
         {
             if (ModelState.IsValid)
             {
-                delivery.DeliveryID = Guid.NewGuid();
-                _context.Add(delivery);
+                postOffice.PostOfficeID = Guid.NewGuid();
+                _context.Add(postOffice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(delivery);
+            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
+            return View(postOffice);
         }
 
-        // GET: Deliveries/Edit/5
+        // GET: PostOffices/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -84,22 +78,23 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries.FindAsync(id);
-            if (delivery == null)
+            var postOffice = await _context.PostOffices.FindAsync(id);
+            if (postOffice == null)
             {
                 return NotFound();
             }
-            return View(delivery);
+            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
+            return View(postOffice);
         }
 
-        // POST: Deliveries/Edit/5
+        // POST: PostOffices/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("DeliveryID,CreatedDate,ExpectedDeliveryDate,StatusUpdateDate")] Delivery delivery)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PostOfficeID,packageSCapacity,packageMCapacity,packageLCapacity,AddressID")] PostOffice postOffice)
         {
-            if (id != delivery.DeliveryID)
+            if (id != postOffice.PostOfficeID)
             {
                 return NotFound();
             }
@@ -108,12 +103,12 @@ namespace PostManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(delivery);
+                    _context.Update(postOffice);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeliveryExists(delivery.DeliveryID))
+                    if (!PostOfficeExists(postOffice.PostOfficeID))
                     {
                         return NotFound();
                     }
@@ -124,10 +119,11 @@ namespace PostManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(delivery);
+            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
+            return View(postOffice);
         }
 
-        // GET: Deliveries/Delete/5
+        // GET: PostOffices/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -135,34 +131,35 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries
-                .FirstOrDefaultAsync(m => m.DeliveryID == id);
-            if (delivery == null)
+            var postOffice = await _context.PostOffices
+                .Include(p => p.Address)
+                .FirstOrDefaultAsync(m => m.PostOfficeID == id);
+            if (postOffice == null)
             {
                 return NotFound();
             }
 
-            return View(delivery);
+            return View(postOffice);
         }
 
-        // POST: Deliveries/Delete/5
+        // POST: PostOffices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var delivery = await _context.Deliveries.FindAsync(id);
-            if (delivery != null)
+            var postOffice = await _context.PostOffices.FindAsync(id);
+            if (postOffice != null)
             {
-                _context.Deliveries.Remove(delivery);
+                _context.PostOffices.Remove(postOffice);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DeliveryExists(Guid id)
+        private bool PostOfficeExists(Guid id)
         {
-            return _context.Deliveries.Any(e => e.DeliveryID == id);
+            return _context.PostOffices.Any(e => e.PostOfficeID == id);
         }
     }
 }
