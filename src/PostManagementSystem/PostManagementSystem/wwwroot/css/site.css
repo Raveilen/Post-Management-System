@@ -19,6 +19,12 @@ html {
 
 body {
   margin-bottom: 60px;
+
+  background-image: url('/img/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .copyID-button-size
@@ -28,4 +34,33 @@ body {
     background-color: #ffcc00;
     color: black;
     font-size: 14px;
+}
+
+.login-bg {
+    background-color: #FFFDD0;
+    margin-inline: auto;
+    width: 45%;
+    padding: 35px;
+    height: auto;
+    border-radius: 25px;
+}
+
+.footer-bg {
+    background-color: #FFFDD0;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.login-screen-alignment {
+    max-width: fit-content;
+    margin-inline: auto;
+}
+
+.index-list-bg
+{
+    background-color: #FFFDD0;
+    border-radius: 25px;
+    padding: 15px;
+    font-family: Arial;
 }
