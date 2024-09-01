@@ -34,7 +34,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PostOfficeID)
+                <div class="guid-copy-container">
+                        <button type="button" class="btn btn-primary copyID-button-size"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="@item.PostOfficeID.ToString()"
+                            onclick="copyToClipboard('@item.PostOfficeID.ToString()')">
+                        Copy ID
+                    </button>
+                </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address.FullAddress)
@@ -57,3 +65,26 @@
 }
     </tbody>
 </table>
+
+<script>
+    // Initialize tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Function to copy GUID to clipboard
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.style.position = "absolute";
+        tempInput.style.left = "-1000px";
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+
+        // Optionally, you can provide some feedback that the text was copied
+        alert("ID copied to clipboard: " + text);
+    }
+</script>
+
