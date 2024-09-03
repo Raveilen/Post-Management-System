@@ -48,7 +48,8 @@ namespace PostManagementSystem.Controllers
         // GET: PostOffices/Create
         public IActionResult Create()
         {
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID");
+            var fullAddresses = _context.Addresses.Include(a => a.City).ToList();
+            ViewData["Address"] = new SelectList(fullAddresses, "AddressID", "FullAddress");
             return View();
         }
 
@@ -66,7 +67,10 @@ namespace PostManagementSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
+
+            var fullAddresses = _context.Addresses.Include(a => a.City).ToList();
+
+            ViewData["Address"] = new SelectList(fullAddresses, "AddressID", "FullAddress", postOffice.AddressID);
             return View(postOffice);
         }
 
@@ -78,12 +82,15 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var postOffice = await _context.PostOffices.FindAsync(id);
+            var postOffice = await _context.PostOffices.Include(p => p.Address).ThenInclude(a => a.City).FirstOrDefaultAsync(p => p.PostOfficeID == id);
+
             if (postOffice == null)
             {
                 return NotFound();
             }
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
+
+            var fullAddresses = _context.Addresses.Include(a => a.City).ToList();
+            ViewData["Address"] = new SelectList(fullAddresses, "AddressID", "FullAddress", postOffice.AddressID);
             return View(postOffice);
         }
 
@@ -133,6 +140,7 @@ namespace PostManagementSystem.Controllers
 
             var postOffice = await _context.PostOffices
                 .Include(p => p.Address)
+                .ThenInclude(a => a.City)
                 .FirstOrDefaultAsync(m => m.PostOfficeID == id);
             if (postOffice == null)
             {

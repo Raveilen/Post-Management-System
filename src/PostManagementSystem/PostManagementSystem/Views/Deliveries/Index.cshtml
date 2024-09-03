@@ -1,32 +1,40 @@
 ﻿@model IEnumerable<PostManagementSystem.Models.Delivery>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Deliveries";
 }
 
 <div class="index-list-bg">
-    <h1>Active Deliveries</h1>
+    
+    <div class="page-title-frame">
+        <h1>Active Deliveries</h1>
+    </div>
+
 
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create" asp-controller="Deliveries" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add Delivery</button>
+        </a>
     </p>
+    <br />
+
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.DeliveryID)
+                    ID
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SenderPostOffice)
+                    From
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ReceiverPostOffice)
+                    To
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Status)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Status.Name)
+                   
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Package)
@@ -48,7 +56,7 @@
                 <tr>
                     <td>
                         <div class="guid-copy-container">
-                            <button type="button" class="btn btn-primary copyID-button-size"
+                            <button type="button" class="btn btn-primary copyID-button"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="@item.DeliveryID.ToString()"

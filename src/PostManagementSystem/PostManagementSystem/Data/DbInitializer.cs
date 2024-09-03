@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 using NuGet.Packaging.Core;
 using PostManagementSystem.Controllers;
@@ -876,6 +877,14 @@ namespace PostManagementSystem.Data
                     context.Deliveries.Add(delivery);
                 }
 
+                context.SaveChanges();
+            }
+
+            //Roles
+            if (!context.Roles.Any())
+            {
+                context.Roles.Add(new IdentityRole("Admin"));
+                context.Roles.Add(new IdentityRole("Customer"));
                 context.SaveChanges();
             }
         }

@@ -27,15 +27,6 @@ body {
   background-attachment: fixed;
 }
 
-.copyID-button-size
-{
-    width: 80px;
-    height: 35px;
-    background-color: #ffcc00;
-    color: black;
-    font-size: 14px;
-}
-
 .login-bg {
     background-color: #FFFDD0;
     margin-inline: auto;
@@ -63,4 +54,33 @@ body {
     border-radius: 25px;
     padding: 15px;
     font-family: Arial;
+    min-width: fit-content;
+    min-height: fit-content;
+}
+
+.page-title-frame {
+    background-color: #795c34;
+    color: white;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    opacity: 0.85;
+    border-radius: 5px;
+}
+
+/*buttons*/
+
+.copyID-button {
+    width: 80px;
+    height: 35px;
+    background-color: #ffcc00;
+    color: black;
+    font-size: 15px;
+}
+
+.create-button
+{
+    background-color: #C95B0C;
+    font-size: 16px;
+
 }

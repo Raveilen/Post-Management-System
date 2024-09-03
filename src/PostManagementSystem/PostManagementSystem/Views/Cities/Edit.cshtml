@@ -1,0 +1,46 @@
+﻿@model PostManagementSystem.Models.City
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>Edit</h1>
+    </div>
+    <br />
+
+
+    <h4>City</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CityID" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <br />
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="CityID" />
+                    <input type="submit" class="btn btn-primary create-button" value="Save" />
+                </form>
+            </form>
+        </div>
+    </div>
+
+    <br />
+    <form asp-action="Index" asp-controller="Cities" method="get" style="display:inline;">
+        <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Back to List</button>
+    </form>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

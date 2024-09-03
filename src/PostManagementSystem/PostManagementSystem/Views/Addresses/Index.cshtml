@@ -1,0 +1,84 @@
+﻿@model IEnumerable<PostManagementSystem.Models.Address>
+
+@{
+    ViewData["Title"] = "Addresses";
+}
+
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>Addresses</h1>
+    </div>
+
+    <br />
+    <div>
+        <a asp-action="Create">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add Address</button>
+        </a>
+    </div>
+    
+
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Street)
+                </th>
+                <th>
+                    Dwelling Number
+                </th>
+                <th>
+                   Apartment Number
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostalCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="guid-copy-container">
+                            <button type="button" class="btn btn-primary copyID-button"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="@item.AddressID.ToString()"
+                                    onclick="copyToClipboard('@item.AddressID.ToString()')">
+                                Copy ID
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Street)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DwellingNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApartmentNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PostalCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.AddressID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.AddressID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

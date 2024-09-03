@@ -4,55 +4,74 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>Edit</h1>
+    </div>
+    <br />
 
-<h4>PackageType</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PackageTypeID" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaxWeight" class="control-label"></label>
-                <input asp-for="MaxWeight" class="form-control" />
-                <span asp-validation-for="MaxWeight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaxDimensions" class="control-label"></label>
-                <input asp-for="MaxDimensions" class="form-control" />
-                <span asp-validation-for="MaxDimensions" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsFragile" /> @Html.DisplayNameFor(model => model.IsFragile)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cost" class="control-label"></label>
-                <input asp-for="Cost" class="form-control" />
-                <span asp-validation-for="Cost" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+    <h4>Packaging</h4>
+    <br />
+
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="PackageTypeID" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaxWeight" class="control-label"></label>
+                    <input asp-for="MaxWeight" class="form-control" />
+                    <span asp-validation-for="MaxWeight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaxDimensions" class="control-label"></label>
+                    <input asp-for="MaxDimensions" class="form-control" />
+                    <span asp-validation-for="MaxDimensions" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsFragile" /> @Html.DisplayNameFor(model => model.IsFragile)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Cost" class="control-label"></label>
+                    <input asp-for="Cost" class="form-control" />
+                    <span asp-validation-for="Cost" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary create-button" />
+                </div>
+            </form>
+
+            <br />
+
+        </div>
+    </div>
+
+    <div>
+        <form asp-action="Index" asp-controller="PackageTypes" method="get" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Back to List</button>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

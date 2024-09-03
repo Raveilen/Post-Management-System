@@ -1,0 +1,42 @@
+﻿@model PostManagementSystem.Models.City
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>Create</h1>
+    </div>
+    <br />
+
+    <h4>City</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary create-button" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br />
+
+    <form asp-action="Index" asp-controller="Cities" method="get" style="display:inline;">
+        <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Back To List</button>
+    </form>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<PostManagementSystem.Models.PostOffice>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="index-list-bg">
+    <h1>Post Offices</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostOfficeID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address.FullAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.packageSCapacity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.packageMCapacity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.packageLCapacity)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="guid-copy-container">
+                            <button type="button" class="btn btn-primary copyID-button-size"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="@item.PostOfficeID.ToString()"
+                                    onclick="copyToClipboard('@item.PostOfficeID.ToString()')">
+                                Copy ID
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.FullAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.packageSCapacity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.packageMCapacity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.packageLCapacity)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.PostOfficeID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.PostOfficeID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.PostOfficeID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Initialize tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Function to copy GUID to clipboard
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.style.position = "absolute";
+        tempInput.style.left = "-1000px";
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+
+        // Optionally, you can provide some feedback that the text was copied
+        alert("ID copied to clipboard: " + text);
+    }
+</script>
+

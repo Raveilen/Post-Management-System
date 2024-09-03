@@ -17,8 +17,18 @@ namespace PostManagementSystem.Models
         public Guid CityID { get; set; }
         public City City { get; set; }
 
-        private string apartmentPart => ApartmentNumber != null ? "m. " + ApartmentNumber : "";
-        public string FullAddress => $"ul. {Street} {DwellingNumber} {apartmentPart}, {PostalCode} {City.Name}";
+        
+        
+        public string FullAddress
+        {
+            get
+            {
+                var cityName = City?.Name ?? "Unknown City";
+                var apartmentPart = !string.IsNullOrEmpty(ApartmentNumber) ? "m. " + ApartmentNumber : "";
+                return $"ul. {Street} {DwellingNumber} {apartmentPart}, {PostalCode} {cityName}";
+            }
+        }
+            
 
         //key for adresses identification (check if unique)
         public string AddressKey => $"{Street}{DwellingNumber}{ApartmentNumber}{PostalCode}{City.Name}";

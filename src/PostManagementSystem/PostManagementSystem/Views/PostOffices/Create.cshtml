@@ -4,43 +4,58 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>Create</h1>
+    </div>
+    <br />
 
-<h4>PostOffice</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="packageSCapacity" class="control-label"></label>
-                <input asp-for="packageSCapacity" class="form-control" />
-                <span asp-validation-for="packageSCapacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="packageMCapacity" class="control-label"></label>
-                <input asp-for="packageMCapacity" class="form-control" />
-                <span asp-validation-for="packageMCapacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="packageLCapacity" class="control-label"></label>
-                <input asp-for="packageLCapacity" class="form-control" />
-                <span asp-validation-for="packageLCapacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddressID" class="control-label"></label>
-                <select asp-for="AddressID" class ="form-control" asp-items="ViewBag.AddressID"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+    <h4>PostOffice</h4>
+    <br />
+
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="packageSCapacity" class="control-label"></label>
+                    <input asp-for="packageSCapacity" class="form-control" />
+                    <span asp-validation-for="packageSCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="packageMCapacity" class="control-label"></label>
+                    <input asp-for="packageMCapacity" class="form-control" />
+                    <span asp-validation-for="packageMCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="packageLCapacity" class="control-label"></label>
+                    <input asp-for="packageLCapacity" class="form-control" />
+                    <span asp-validation-for="packageLCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AddressID" class="control-label"></label>
+                    <select asp-for="AddressID" class="form-control" asp-items="ViewBag.Address"></select>
+                </div>
+                <br />
+
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary create-button" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+
+    <div>
+        <form asp-action="Index" asp-controller="PostOffices" method="get" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Back to List</button>
         </form>
     </div>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
