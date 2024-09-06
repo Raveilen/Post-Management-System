@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
+using PostManagementSystem.ViewModels;
 
 namespace PostManagementSystem.Controllers
 {
@@ -52,7 +53,7 @@ namespace PostManagementSystem.Controllers
         {
             var cities = _context.Cities.ToList();
 
-            ViewData["CityName"] = new SelectList(cities, "CityID", "Name");
+            ViewData["City"] = new SelectList(cities, "Name", "Name");
             return View();
         }
 
@@ -61,20 +62,20 @@ namespace PostManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Address address)
+        public async Task<IActionResult> Create(AddressViewModel addressData)
         {
-            if (ModelState.IsValid)
-            {
-                address.AddressID = Guid.NewGuid();
-                _context.Add(address);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            Address address = new Address();
+            address.Street = addressData.Street;
+            address.DwellingNumber = addressData.DwellingNumber;
+            address.ApartmentNumber = addressData.ApartmentNumber;
+            address.PostalCode = addressData.PostalCode;
+            address.CityID = _context.Cities.FirstOrDefault(c => c.Name == addressData.City).CityID;
+            address.City = _context.Cities.FirstOrDefault(c => c.Name == addressData.City);
 
-            var cities = await _context.Cities.ToListAsync();
+            await _context.Addresses.AddAsync(address);
+            await _context.SaveChangesAsync();
 
-            ViewData["CityName"] = new SelectList(cities, "CityID", "Name", address.CityID);
-            return View(address);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Addresses/Edit/5
@@ -92,10 +93,19 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var cities = await _context.Cities.ToListAsync();
+            var addressData = new AddressViewModel
+            {
+                Street = address.Street,
+                DwellingNumber = address.DwellingNumber,
+                ApartmentNumber = address.ApartmentNumber,
+                PostalCode = address.PostalCode,
+                City = address.City.Name
+            };
 
-            ViewData["CityName"] = new SelectList(cities, "CityID", "Name", address.CityID);
-            return View(address);
+            var cities = await _context.Cities.ToListAsync();
+            ViewData["City"] = new SelectList(cities, "Name", "Name", address.CityID);
+
+            return View(addressData);
         }
 
         // POST: Addresses/Edit/5
@@ -103,35 +113,32 @@ namespace PostManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AddressID,Street,DwellingNumber,ApartmentNumber,PostalCode,CityID")] Address address)
+        public async Task<IActionResult> Edit(Guid id, AddressViewModel addressData)
         {
-            if (id != address.AddressID)
+            var address = await _context.Addresses.Include(a => a.City).FirstOrDefaultAsync(a => a.AddressID == id);
+            if (address == null)
+            {
+                return NotFound();
+            }
+
+            if(address.AddressID != id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(address);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AddressExists(address.AddressID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                address.Street = addressData.Street;
+                address.DwellingNumber = addressData.DwellingNumber;
+                address.ApartmentNumber = addressData.ApartmentNumber;
+                address.PostalCode = addressData.PostalCode;
+
+                address.City = _context.Cities.FirstOrDefault(c => c.Name == addressData.City);
+                address.CityID = _context.Cities.FirstOrDefault(c => c.Name == addressData.City).CityID;
+
+                _context.SaveChanges();
             }
-            ViewData["CityID"] = new SelectList(_context.Cities, "CityID", "CityID", address.CityID);
-            return View(address);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Addresses/Delete/5

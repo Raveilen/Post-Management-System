@@ -1,4 +1,4 @@
-﻿@model PostManagementSystem.Models.PostOffice
+﻿@model PostManagementSystem.ViewModels.PostOfficeViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -18,19 +18,19 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="PostOfficeID" />
                 <div class="form-group">
-                    <label asp-for="packageSCapacity" class="control-label"></label>
-                    <input asp-for="packageSCapacity" class="form-control" />
-                    <span asp-validation-for="packageSCapacity" class="text-danger"></span>
+                    <label asp-for="SCapacity" class="control-label"></label>
+                    <input asp-for="SCapacity" class="form-control" />
+                    <span asp-validation-for="SCapacity" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="packageMCapacity" class="control-label"></label>
-                    <input asp-for="packageMCapacity" class="form-control" />
-                    <span asp-validation-for="packageMCapacity" class="text-danger"></span>
+                    <label asp-for="MCapacity" class="control-label"></label>
+                    <input asp-for="MCapacity" class="form-control" />
+                    <span asp-validation-for="MCapacity" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="packageLCapacity" class="control-label"></label>
-                    <input asp-for="packageLCapacity" class="form-control" />
-                    <span asp-validation-for="packageLCapacity" class="text-danger"></span>
+                    <label asp-for="LCapacity" class="control-label"></label>
+                    <input asp-for="LCapacity" class="form-control" />
+                    <span asp-validation-for="LCapacity" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="AddressID" class="control-label"></label>

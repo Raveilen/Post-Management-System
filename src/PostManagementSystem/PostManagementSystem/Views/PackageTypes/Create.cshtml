@@ -1,4 +1,4 @@
-﻿@model PostManagementSystem.Models.PackageType
+﻿@model PostManagementSystem.ViewModels.PackageTypeViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -19,17 +19,17 @@
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
+                    <label asp-for="Name" class="control-label">Size</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="MaxWeight" class="control-label"></label>
+                    <label asp-for="MaxWeight" class="control-label">Max Weight</label>
                     <input asp-for="MaxWeight" class="form-control" />
                     <span asp-validation-for="MaxWeight" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="MaxDimensions" class="control-label"></label>
+                    <label asp-for="MaxDimensions" class="control-label">Max Dimensions</label>
                     <input asp-for="MaxDimensions" class="form-control" />
                     <span asp-validation-for="MaxDimensions" class="text-danger"></span>
                 </div>
@@ -37,9 +37,10 @@
 
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsFragile" /> @Html.DisplayNameFor(model => model.IsFragile)
+                        <input class="form-check-input" asp-for="IsFragile" /> Fragile
                     </label>
                 </div>
+                <br />
 
                 <div class="form-group">
                     <label asp-for="Cost" class="control-label"></label>
