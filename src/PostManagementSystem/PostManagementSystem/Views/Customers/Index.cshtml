@@ -1,18 +1,18 @@
-﻿@model IEnumerable<PostManagementSystem.Models.PackageType>
+﻿@model IEnumerable<PostManagementSystem.Models.Customer>
 
 @{
-    ViewData["Title"] = "Package Types";
+    ViewData["Title"] = "Index";
 }
 
 <div class="index-list-bg">
     <div class="page-title-frame">
-        <h1>Package Types</h1>
+        <h1>Customers</h1>
     </div>
     <br />
 
     <p>
-        <a asp-action="Create" asp-controller="PackageTypes" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add Packagin Option</button>
+        <a asp-action="Create" asp-controller="Customers" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add Customer Details</button>
         </a>
     </p>
 
@@ -26,19 +26,10 @@
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MaxWeight)
+                    @Html.DisplayNameFor(model => model.Surname)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MaxDimensions)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsFragile)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cost)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Image)
+                    @Html.DisplayNameFor(model => model.Phone)
                 </th>
                 <th></th>
             </tr>
@@ -52,8 +43,8 @@
                             <button type="button" class="btn btn-primary copyID-button"
                                     data-toggle="tooltip"
                                     data-placement="top"
-                                    title="@item.PackageTypeID.ToString()"
-                                    onclick="copyToClipboard('@item.PackageTypeID.ToString()')">
+                                    title="@item.ID.ToString()"
+                                    onclick="copyToClipboard('@item.ID.ToString()')">
                                 Copy ID
                             </button>
                         </div>
@@ -62,30 +53,14 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MaxWeight)
+                        @Html.DisplayFor(modelItem => item.Surname)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MaxDimensions)
+                        @Html.DisplayFor(modelItem => item.Phone)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IsFragile)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                    <td>
-                        @if (item.Image != null)
-                        {
-                            <img src="@Url.Action("GetImage", "PackageTypes", new { id = item.PackageTypeID })" alt="Package Image" width="50" height="50" />
-                        }
-                        else
-                        {
-                            <p>No image available</p>
-                        }
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.PackageTypeID">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.PackageTypeID">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                     </td>
                 </tr>
             }
@@ -115,5 +90,3 @@
         alert("ID copied to clipboard: " + text);
     }
 </script>
-
-

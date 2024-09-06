@@ -11,9 +11,14 @@ namespace PostManagementSystem.Models
 
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string? Email { get; set; }
         public string Phone { get; set; }
 
-        public string CustomerKey => $"{Name}{Surname}{Email}{Phone}";
+        public string CustomerKey
+        {
+            get
+            {
+                return $"{Name}{Surname}{Phone}";
+            }
+        }
     }
 }

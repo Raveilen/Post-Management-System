@@ -9,6 +9,7 @@
     <div class="page-title-frame">
         <h1>Active Deliveries</h1>
     </div>
+    <br />
 
 
     <p>
@@ -16,7 +17,6 @@
             <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add Delivery</button>
         </a>
     </p>
-    <br />
 
     <table class="table">
         <thead>
@@ -106,7 +106,6 @@
 
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.DeliveryID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.DeliveryID">Details</a> |
                         <a asp-action="Delete" asp-route-id="@item.DeliveryID">Delete</a>
                     </td>
                 </tr>

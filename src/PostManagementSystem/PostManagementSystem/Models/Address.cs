@@ -17,8 +17,8 @@ namespace PostManagementSystem.Models
         public Guid CityID { get; set; }
         public City City { get; set; }
 
-        
-        
+
+
         public string FullAddress
         {
             get
@@ -28,9 +28,18 @@ namespace PostManagementSystem.Models
                 return $"ul. {Street} {DwellingNumber} {apartmentPart}, {PostalCode} {cityName}";
             }
         }
+
+        public string AddresKey
+        {
+            get
+            {
+                var cityName = City?.Name ?? "Unknown City";
+                return $"{Street}{DwellingNumber}{ApartmentNumber}{PostalCode}{cityName}";
+            }
+        }
             
 
         //key for adresses identification (check if unique)
-        public string AddressKey => $"{Street}{DwellingNumber}{ApartmentNumber}{PostalCode}{City.Name}";
+      
     }
 }

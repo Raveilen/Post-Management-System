@@ -12,23 +12,22 @@ using PostManagementSystem.Models;
 namespace PostManagementSystem.Controllers
 {
     [Authorize]
-    public class AddressesController : Controller
+    public class CustomersController : Controller
     {
         private readonly PostManagementContext _context;
 
-        public AddressesController(PostManagementContext context)
+        public CustomersController(PostManagementContext context)
         {
             _context = context;
         }
 
-        // GET: Addresses
+        // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var postManagementContext = _context.Addresses.Include(a => a.City);
-            return View(await postManagementContext.ToListAsync());
+            return View(await _context.Customers.ToListAsync());
         }
 
-        // GET: Addresses/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -36,48 +35,40 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .Include(a => a.City)
-                .FirstOrDefaultAsync(m => m.AddressID == id);
-            if (address == null)
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(address);
+            return View(customer);
         }
 
-        // GET: Addresses/Create
+        // GET: Customers/Create
         public IActionResult Create()
         {
-            var cities = _context.Cities.ToList();
-
-            ViewData["CityName"] = new SelectList(cities, "CityID", "Name");
             return View();
         }
 
-        // POST: Addresses/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Address address)
+        public async Task<IActionResult> Create([Bind("ID,Name,Surname,Phone")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                address.AddressID = Guid.NewGuid();
-                _context.Add(address);
+                customer.ID = Guid.NewGuid();
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            var cities = await _context.Cities.ToListAsync();
-
-            ViewData["CityName"] = new SelectList(cities, "CityID", "Name", address.CityID);
-            return View(address);
+            return View(customer);
         }
 
-        // GET: Addresses/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -85,27 +76,22 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var address = await _context.Addresses.Include(a => a.City).FirstOrDefaultAsync(a => a.AddressID == id);
-
-            if (address == null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
-
-            var cities = await _context.Cities.ToListAsync();
-
-            ViewData["CityName"] = new SelectList(cities, "CityID", "Name", address.CityID);
-            return View(address);
+            return View(customer);
         }
 
-        // POST: Addresses/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AddressID,Street,DwellingNumber,ApartmentNumber,PostalCode,CityID")] Address address)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ID,Name,Surname,Phone")] Customer customer)
         {
-            if (id != address.AddressID)
+            if (id != customer.ID)
             {
                 return NotFound();
             }
@@ -114,12 +100,12 @@ namespace PostManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(address);
+                    _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AddressExists(address.AddressID))
+                    if (!CustomerExists(customer.ID))
                     {
                         return NotFound();
                     }
@@ -130,11 +116,10 @@ namespace PostManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityID"] = new SelectList(_context.Cities, "CityID", "CityID", address.CityID);
-            return View(address);
+            return View(customer);
         }
 
-        // GET: Addresses/Delete/5
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -142,35 +127,34 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .Include(a => a.City)
-                .FirstOrDefaultAsync(m => m.AddressID == id);
-            if (address == null)
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(address);
+            return View(customer);
         }
 
-        // POST: Addresses/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var address = await _context.Addresses.FindAsync(id);
-            if (address != null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer != null)
             {
-                _context.Addresses.Remove(address);
+                _context.Customers.Remove(customer);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AddressExists(Guid id)
+        private bool CustomerExists(Guid id)
         {
-            return _context.Addresses.Any(e => e.AddressID == id);
+            return _context.Customers.Any(e => e.ID == id);
         }
     }
 }

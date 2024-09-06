@@ -1,23 +1,22 @@
-﻿@model IEnumerable<PostManagementSystem.Models.Address>
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<ApplicationUser>
 
 @{
-    ViewData["Title"] = "Addresses";
+    ViewData["Title"] = "Users";
 }
 
 <div class="index-list-bg">
+
     <div class="page-title-frame">
-        <h1>Addresses</h1>
+        <h1>Users</h1>
     </div>
-
     <br />
-    <div>
-        <a asp-action="Create" asp-controller="Addresses" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add New Address</button>
+
+    <p>
+        <a asp-action="Create" asp-controller="Users" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Register New User</button>
         </a>
-    </div>
-    
-
-    <br />
+    </p>
 
     <table class="table">
         <thead>
@@ -26,21 +25,11 @@
                     ID
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Street)
+                   E-mail
                 </th>
                 <th>
-                    Dwelling Number
+                    Role
                 </th>
-                <th>
-                   Apartment Number
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostalCode)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.City)
-                </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -52,30 +41,21 @@
                             <button type="button" class="btn btn-primary copyID-button"
                                     data-toggle="tooltip"
                                     data-placement="top"
-                                    title="@item.AddressID.ToString()"
-                                    onclick="copyToClipboard('@item.AddressID.ToString()')">
+                                    title="@item.Id.ToString()"
+                                    onclick="copyToClipboard('@item.Id.ToString()')">
                                 Copy ID
                             </button>
                         </div>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Street)
+                        @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DwellingNumber)
+                        @Html.DisplayFor(modelItem => item.Role.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ApartmentNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PostalCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City.Name)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.AddressID">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.AddressID">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }
