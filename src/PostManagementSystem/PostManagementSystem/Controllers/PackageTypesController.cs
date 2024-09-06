@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
+using PostManagementSystem.ViewModels;
 
 namespace PostManagementSystem.Controllers
 {
+    [Authorize]
     public class PackageTypesController : Controller
     {
         private readonly PostManagementContext _context;
@@ -43,12 +47,6 @@ namespace PostManagementSystem.Controllers
             return View(packageType);
         }
 
-        // GET: PackageTypes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         //GET: PackageTypes/Image
         public async Task<IActionResult> GetImage(Guid? id)
         {
@@ -66,21 +64,48 @@ namespace PostManagementSystem.Controllers
             return File(packageType.Image, "image/jpg");
         }
 
+        // GET: PackageTypes/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         // POST: PackageTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PackageTypeID,Name,MaxWeight,MaxDimensions,IsFragile,Cost,Image")] PackageType packageType)
+        public async Task<IActionResult> Create(PackageTypeViewModel packageTypeData)
         {
             if (ModelState.IsValid)
             {
-                packageType.PackageTypeID = Guid.NewGuid();
-                _context.Add(packageType);
+                PackageType packageType = new();
+                packageType.Name = packageTypeData.Name;
+                packageType.MaxWeight = packageTypeData.MaxWeight;
+                packageType.MaxDimensions = packageTypeData.MaxDimensions;
+                packageType.IsFragile = packageTypeData.IsFragile;
+                packageType.Cost = packageTypeData.Cost;
+
+                switch (packageType.Name.ToUpper())
+                {
+                    case "SMALL":
+                        packageType.Image = ImageConverter.ConvertImageToByteArray(ImageConverter.smallImagePath);
+                        break;
+                    case "MEDIUM":
+                        packageType.Image = ImageConverter.ConvertImageToByteArray(ImageConverter.mediumImagePath);
+                        break;
+                    case "LARGE":
+                        packageType.Image = ImageConverter.ConvertImageToByteArray(ImageConverter.largeImagePath);
+                        break;
+                    default:
+                        packageType.Image = null;
+                        break;
+                }
+
+                await _context.AddAsync(packageType);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(packageType);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: PackageTypes/Edit/5
@@ -92,11 +117,21 @@ namespace PostManagementSystem.Controllers
             }
 
             var packageType = await _context.PackageTypes.FindAsync(id);
+
             if (packageType == null)
             {
                 return NotFound();
             }
-            return View(packageType);
+
+            var packageTypeData = new PackageTypeViewModel
+            {
+                Name = packageType.Name,
+                MaxWeight = packageType.MaxWeight,
+                MaxDimensions = packageType.MaxDimensions,
+                IsFragile = packageType.IsFragile,
+                Cost = packageType.Cost
+            };
+            return View(packageTypeData);
         }
 
         // POST: PackageTypes/Edit/5
@@ -104,8 +139,15 @@ namespace PostManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PackageTypeID,Name,MaxWeight,MaxDimensions,IsFragile,Cost,Image")] PackageType packageType)
+        public async Task<IActionResult> Edit(Guid id, PackageTypeViewModel packageTypeData)
         {
+            var packageType = await _context.PackageTypes.FindAsync(id);
+            
+            if (packageType == null) 
+            {
+                return NotFound();
+            }
+
             if (id != packageType.PackageTypeID)
             {
                 return NotFound();
@@ -113,25 +155,32 @@ namespace PostManagementSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                packageType.Name = packageTypeData.Name;
+                packageType.MaxWeight = packageTypeData.MaxWeight;
+                packageType.MaxDimensions = packageTypeData.MaxDimensions;
+                packageType.IsFragile = packageTypeData.IsFragile;
+                packageType.Cost = packageTypeData.Cost;
+
+                switch (packageType.Name.ToUpper())
                 {
-                    _context.Update(packageType);
-                    await _context.SaveChangesAsync();
+                    case "SMALL":
+                        packageType.Image = ImageConverter.ConvertImageToByteArray(ImageConverter.smallImagePath);
+                        break;
+                    case "MEDIUM":
+                        packageType.Image = ImageConverter.ConvertImageToByteArray(ImageConverter.mediumImagePath);
+                        break;
+                    case "LARGE":
+                        packageType.Image = ImageConverter.ConvertImageToByteArray(ImageConverter.largeImagePath);
+                        break;
+                    default:
+                        packageType.Image = null;
+                        break;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PackageTypeExists(packageType.PackageTypeID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                await _context.SaveChangesAsync();
+
             }
-            return View(packageType);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: PackageTypes/Delete/5

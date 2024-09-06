@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostManagementSystem.Models;
 using System.Diagnostics;
 
 namespace PostManagementSystem.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,6 +17,9 @@ namespace PostManagementSystem.Controllers
 
         public IActionResult Index()
         {
+            //with Login
+            return !this.User.Identity.IsAuthenticated? this.Redirect("~/Identity/Account/Login"): View();
+            //no Login
             return View();
         }
 

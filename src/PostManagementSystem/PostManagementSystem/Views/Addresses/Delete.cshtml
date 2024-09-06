@@ -1,0 +1,73 @@
+﻿@model PostManagementSystem.Models.Address
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>Delete</h1>
+    </div>
+    <br />
+
+
+    <h3>Are you sure you want to delete this?</h3>
+    <br />
+
+    <div>
+        <h4>Address</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+               ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AddressID)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Street)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Street)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DwellingNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DwellingNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ApartmentNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ApartmentNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PostalCode)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PostalCode)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.City.Name)
+            </dd>
+        </dl>
+        <br />
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="AddressID" />
+            <input type="submit" class="btn btn-primary create-button" value="Delete" />
+        </form>
+
+        <br />
+        <div>
+            <form asp-action="Index" asp-controller="Addresses" method="get" style="display:inline;">
+                <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Back to List</button>
+            </form>
+
+        </div>
+</div>
+

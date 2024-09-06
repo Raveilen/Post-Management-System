@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 using NuGet.Packaging.Core;
 using PostManagementSystem.Controllers;
 using PostManagementSystem.Models;
+using static System.Net.Mime.MediaTypeNames;
 using PackageType = PostManagementSystem.Models.PackageType;
 
 namespace PostManagementSystem.Data
@@ -423,158 +427,127 @@ namespace PostManagementSystem.Data
                     new Customer {
                         Name = "Jan",
                         Surname = "Kowalski",
-                        Email = "jankowalski@gmail.com",
                         Phone = "568749852", },
                     new Customer {
                         Name = "Anna",
                         Surname = "Nowak",
-                        Email = "annanowak@grupaonet.com",
                         Phone = "512345678" },
                     new Customer {
                         Name = "Tomasz",
                         Surname = "Wiśniewski",
-                        Email = "tomasz.wisniewski@wp.pl",
                         Phone = "523456789" },
                     new Customer {
                         Name = "Katarzyna",
                         Surname = "Kaczmarek",
-                        Email = "katarzyna.kaczmarek@yahoo.com",
                         Phone = "534567890" },
                     new Customer {
                         Name = "Paweł",
                         Surname = "Zieliński",
-                        Email = "pawel.zielinski@grupaonet.com",
                         Phone = "545678901" },
                     new Customer {
                         Name = "Monika",
                         Surname = "Jankowska",
-                        Email = "monika.jankowska@wp.pl",
                         Phone = "556789012" },
                     new Customer {
                         Name = "Marek",
                         Surname = "Szymański",
-                        Email = "marek.szymanski@yahoo.com",
                         Phone = "567890123" },
                     new Customer {
                         Name = "Agnieszka",
                         Surname = "Wróbel",
-                        Email = "agnieszka.wrobel@grupaonet.com",
                         Phone = "578901234" },
                     new Customer {
                         Name = "Łukasz",
                         Surname = "Michalski",
-                        Email = "lukasz.michalski@wp.pl",
                         Phone = "589012345" },
                     new Customer {
                         Name = "Justyna",
                         Surname = "Krawczyk",
-                        Email = "justyna.krawczyk@yahoo.com",
                         Phone = "590123456" },
                     new Customer {
                         Name = "Grzegorz",
                         Surname = "Borkowski",
-                        Email = "grzegorz.borkowski@grupaonet.com",
                         Phone = "601234567" },
                     new Customer {
                         Name = "Ewa",
                         Surname = "Kubiak",
-                        Email = "ewa.kubiak@wp.pl",
                         Phone = "612345678" },
                     new Customer {
                         Name = "Piotr",
                         Surname = "Dąbrowski",
-                        Email = "piotr.dabrowski@yahoo.com",
                         Phone = "623456789" },
                     new Customer {
                         Name = "Karolina",
                         Surname = "Zawisza",
-                        Email = "karolina.zawisza@grupaonet.com",
                         Phone = "634567890" },
                     new Customer {
                         Name = "Adam",
                         Surname = "Pawlak",
-                        Email = "adam.pawlak@wp.pl",
                         Phone = "645678901" },
                     new Customer {
                         Name = "Marta",
                         Surname = "Wojciechowska",
-                        Email = "marta.wojciechowska@yahoo.com",
                         Phone = "656789012" },
 
                     new Customer {
                         Name = "Julia",
                         Surname = "Lewandowska",
-                        Email = "julia.lewandowska@grupaonet.com",
                         Phone = "667890123" },
                     new Customer {
                         Name = "Michał",
                         Surname = "Czarnecki",
-                        Email = "michal.czarnecki@wp.pl",
                         Phone = "678901234" },
                     new Customer {
                         Name = "Natalia",
                         Surname = "Bąk",
-                        Email = "natalia.bak@yahoo.com",
                         Phone = "689012345" },
                     new Customer {
                         Name = "Krzysztof",
                         Surname = "Kamiński",
-                        Email = "krzysztof.kaminski@grupaonet.com",
                         Phone = "690123456" },
                     new Customer {
                         Name = "Ola",
                         Surname = "Wysocka",
-                        Email = "ola.wysocka@wp.pl",
                         Phone = "701234567" },
                     new Customer {
                         Name = "Sebastian",
                         Surname = "Nowicki",
-                        Email = "sebastian.nowicki@yahoo.com",
                         Phone = "712345678" },
                     new Customer {
                         Name = "Aleksandra",
                         Surname = "Marciniak",
-                        Email = "aleksandra.marciniak@grupaonet.com",
                         Phone = "723456789" },
                     new Customer {
                         Name = "Dariusz",
                         Surname = "Kozłowski",
-                        Email = "dariusz.kozlowski@wp.pl",
                         Phone = "734567890" },
                     new Customer {
                         Name = "Wioleta",
                         Surname = "Pietrzak",
-                        Email = "wioleta.pietrzak@yahoo.com",
                         Phone = "745678901" },
                     new Customer {
                         Name = "Andrzej",
                         Surname = "Sikora",
-                        Email = "andrzej.sikora@grupaonet.com",
                         Phone = "756789012" },
                     new Customer {
                         Name = "Zofia",
                         Surname = "Kalinowska",
-                        Email = "zofia.kalinowska@wp.pl",
                         Phone = "767890123" },
                     new Customer {
                         Name = "Rafał",
                         Surname = "Mazurek",
-                        Email = "rafal.mazurek@yahoo.com",
                         Phone = "778901234" },
                     new Customer {
                         Name = "Edyta",
                         Surname = "Różalska",
-                        Email = "edyta.rozalska@grupaonet.com",
                         Phone = "789012345" },
                     new Customer {
                         Name = "Waldemar",
                         Surname = "Sadowski",
-                        Email = "waldemar.sadowski@wp.pl",
                         Phone = "790123456" },
                     new Customer {
                         Name = "Kinga",
                         Surname = "Wasilewska",
-                        Email = "kinga.wasilewska@yahoo.com",
                         Phone = "801234567" },
                 };
 
@@ -875,6 +848,50 @@ namespace PostManagementSystem.Data
                 {
                     context.Deliveries.Add(delivery);
                 }
+
+                context.SaveChanges();
+            }
+
+            //Roles
+            if (!context.Roles.Any())
+            {
+                context.Roles.Add(new IdentityRole("Admin"));
+                context.Roles.Add(new IdentityRole("Customer"));
+                context.SaveChanges();
+            }
+
+            //Users
+            if (!context.Users.Any() && context.Roles.Any())
+            {
+                var hasher = new PasswordHasher<ApplicationUser>();
+                var roles = context.Roles.ToList();
+
+                ApplicationUser customer = new ApplicationUser();
+                customer.UserName = "customer@test.com";
+                customer.NormalizedUserName = "customer".ToUpper();
+                customer.Email = "customer@test.com";
+                customer.NormalizedEmail = "customer@test.com".ToUpper();
+                customer.EmailConfirmed = true;
+                customer.PasswordHash = hasher.HashPassword(customer, "Alpaka255#");
+                customer.RoleID = roles.FirstOrDefault(r => r.Name == "Customer").Id;
+                customer.Role = roles.FirstOrDefault(r => r.Name == "Customer");
+                customer.SecurityStamp = Guid.NewGuid().ToString();
+                customer.LockoutEnabled = true;
+
+                ApplicationUser admin = new ApplicationUser();
+                admin.UserName = "admin@test.com";
+                admin.NormalizedUserName = "admin".ToUpper();
+                admin.Email = "admin@test.com";
+                admin.NormalizedEmail = "admin@test.com".ToUpper();
+                admin.EmailConfirmed = true;
+                admin.PasswordHash = hasher.HashPassword(admin, "Koala5$");
+                admin.RoleID = roles.FirstOrDefault(r => r.Name == "Admin").Id;
+                admin.Role = roles.FirstOrDefault(r => r.Name == "Admin");
+                admin.SecurityStamp = Guid.NewGuid().ToString();
+                admin.LockoutEnabled = true;
+
+                context.Users.Add(customer);
+                context.Users.Add(admin);
 
                 context.SaveChanges();
             }

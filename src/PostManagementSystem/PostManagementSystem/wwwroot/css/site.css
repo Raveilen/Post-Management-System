@@ -19,4 +19,73 @@ html {
 
 body {
   margin-bottom: 60px;
+
+  background-image: url('/img/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.login-bg {
+    background-color: #FFFDD0;
+    margin-inline: auto;
+    width: 45%;
+    padding: 35px;
+    height: auto;
+    border-radius: 25px;
+}
+
+.footer-bg {
+    background-color: #FFFDD0;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.login-screen-alignment {
+    max-width: fit-content;
+    margin-inline: auto;
+}
+
+.index-list-bg
+{
+    background-color: #FFFDD0;
+    border-radius: 25px;
+    padding: 15px;
+    font-family: Arial;
+    min-width: fit-content;
+    min-height: fit-content;
+}
+
+.page-title-frame {
+    background-color: #003366;
+    color: white;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    opacity: 0.85;
+    border-radius: 5px;
+}
+
+/*buttons*/
+
+.copyID-button {
+    width: 80px;
+    height: 35px;
+    background-color: #ffcc00;
+    color: black;
+    font-size: 15px;
+}
+
+.create-button
+{
+    background-color: #C95B0C;
+    font-size: 16px;
+
+}
+
+.bold
+{
+    font-weight: 600;
 }

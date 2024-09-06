@@ -15,7 +15,8 @@ namespace PostManagementSystem.Models
 
         public bool IsFragile { get; set; } //czy paczka jest łamliwa
 
+        [DataType(DataType.Currency)]
         public decimal Cost { get; set; } //koszt wysyłki
-        public byte[] Image { get; set; } //zdjęcie poglądowe paczki
+        public byte[]? Image { get; set; } //zdjęcie poglądowe paczki
     }
 }

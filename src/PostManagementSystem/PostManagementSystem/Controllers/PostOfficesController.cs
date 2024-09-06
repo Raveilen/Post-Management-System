@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
+using PostManagementSystem.ViewModels;
 
 namespace PostManagementSystem.Controllers
 {
+    [Authorize]
     public class PostOfficesController : Controller
     {
         private readonly PostManagementContext _context;
@@ -48,7 +51,8 @@ namespace PostManagementSystem.Controllers
         // GET: PostOffices/Create
         public IActionResult Create()
         {
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID");
+            var addresses = _context.Addresses.Include(a => a.City).ToList();
+            ViewData["Address"] = new SelectList(addresses, "AddressID", "FullAddress");
             return View();
         }
 
@@ -57,17 +61,28 @@ namespace PostManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostOfficeID,packageSCapacity,packageMCapacity,packageLCapacity,AddressID")] PostOffice postOffice)
+        public async Task<IActionResult> Create(PostOfficeViewModel postOfficeData)
         {
             if (ModelState.IsValid)
             {
-                postOffice.PostOfficeID = Guid.NewGuid();
-                _context.Add(postOffice);
+                PostOffice postOffice = new();
+                postOffice.packageSCapacity = postOfficeData.SCapacity;
+                postOffice.packageMCapacity = postOfficeData.MCapacity;
+                postOffice.packageLCapacity = postOfficeData.LCapacity;
+                postOffice.AddressID = postOfficeData.AddressID;
+
+                var address = _context.Addresses.FirstOrDefault(a => a.AddressID == postOfficeData.AddressID);
+                if(address == null)
+                {
+                    return NotFound();
+                }
+                postOffice.Address = address;
+
+                await _context.AddAsync(postOffice);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
-            return View(postOffice);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: PostOffices/Edit/5
@@ -78,13 +93,25 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var postOffice = await _context.PostOffices.FindAsync(id);
+            var postOffice = await _context.PostOffices.Include(p => p.Address).ThenInclude(a => a.City).FirstOrDefaultAsync(p => p.PostOfficeID == id);
+
             if (postOffice == null)
             {
                 return NotFound();
             }
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
-            return View(postOffice);
+
+            var postOfficeData = new PostOfficeViewModel
+            {
+                PostOfficeID = postOffice.PostOfficeID,
+                AddressID = postOffice.AddressID,
+                SCapacity = postOffice.packageSCapacity,
+                MCapacity = postOffice.packageMCapacity,
+                LCapacity = postOffice.packageLCapacity
+            };
+
+            var fullAddresses = _context.Addresses.Include(a => a.City).ToList();
+            ViewData["Address"] = new SelectList(fullAddresses, "AddressID", "FullAddress");
+            return View(postOfficeData);
         }
 
         // POST: PostOffices/Edit/5
@@ -92,8 +119,15 @@ namespace PostManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PostOfficeID,packageSCapacity,packageMCapacity,packageLCapacity,AddressID")] PostOffice postOffice)
+        public async Task<IActionResult> Edit(Guid id, PostOfficeViewModel postOfficeData)
         {
+            var postOffice = await _context.PostOffices.FirstOrDefaultAsync(p => p.PostOfficeID == postOfficeData.PostOfficeID);
+
+            if(postOffice == null)
+            {
+                return NotFound();
+            }
+
             if (id != postOffice.PostOfficeID)
             {
                 return NotFound();
@@ -101,26 +135,22 @@ namespace PostManagementSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                postOffice.packageSCapacity = postOfficeData.SCapacity;
+                postOffice.packageMCapacity = postOfficeData.MCapacity;
+                postOffice.packageLCapacity = postOfficeData.LCapacity;
+                postOffice.AddressID = postOfficeData.AddressID;
+                
+                var address = _context.Addresses.FirstOrDefault(a => a.AddressID == postOfficeData.AddressID);
+                if(address == null)
                 {
-                    _context.Update(postOffice);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PostOfficeExists(postOffice.PostOfficeID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                postOffice.Address = address;
+                await _context.SaveChangesAsync();
             }
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "AddressID", "AddressID", postOffice.AddressID);
-            return View(postOffice);
+            
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: PostOffices/Delete/5
@@ -133,6 +163,7 @@ namespace PostManagementSystem.Controllers
 
             var postOffice = await _context.PostOffices
                 .Include(p => p.Address)
+                .ThenInclude(a => a.City)
                 .FirstOrDefaultAsync(m => m.PostOfficeID == id);
             if (postOffice == null)
             {

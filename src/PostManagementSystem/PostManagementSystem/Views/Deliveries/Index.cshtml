@@ -1,97 +1,138 @@
 ﻿@model IEnumerable<PostManagementSystem.Models.Delivery>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Deliveries";
 }
 
-<h1>Active Deliveries</h1>
+<div class="index-list-bg">
+    
+    <div class="page-title-frame">
+        <h1>Active Deliveries</h1>
+    </div>
+    <br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DeliveryID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SenderPostOffice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReceiverPostOffice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Package)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpectedDeliveryDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatusUpdateDate)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeliveryID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SenderPostOffice.Address.FullAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceiverPostOffice.Address.FullAddress)
-            </td>
-            <td>
-                @if (item.Status.Image != null)
-                {
-                    <img src="@Url.Action("GetImage", "Status", new { id = item.Status.StatusID })" alt="Status Image" width="60" height="40" />
-                }
-                else
-                {
-                    <p>No image available</p>
-                }
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Status.Name)
-            </td>
-            <td>
-                @if (item.Package.Type.Image != null)
-                {
-                    <img src="@Url.Action("GetImage", "PackageTypes", new { id = item.Package.Type.PackageTypeID })" alt="Package Image" width="50" height="50" />
-                }
-                else
-                {
-                    <p>No image available</p>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpectedDeliveryDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StatusUpdateDate)
-            </td>
-           
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DeliveryID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DeliveryID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DeliveryID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+    <p>
+        <a asp-action="Create" asp-controller="Deliveries" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add Delivery</button>
+        </a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                   
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Package)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExpectedDeliveryDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusUpdateDate)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="guid-copy-container">
+                            <button type="button" class="btn btn-primary copyID-button"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="@item.DeliveryID.ToString()"
+                                    onclick="copyToClipboard('@item.DeliveryID.ToString()')">
+                                Copy ID
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SenderPostOffice.Address.FullAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReceiverPostOffice.Address.FullAddress)
+                    </td>
+                    <td>
+                        @if (item.Status.Image != null)
+                        {
+                            <img src="@Url.Action("GetImage", "Status", new { id = item.Status.StatusID })" alt="Status Image" width="60" height="40" />
+                        }
+                        else
+                        {
+                            <p>No image available</p>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status.Name)
+                    </td>
+                    <td>
+                        @if (item.Package.Type.Image != null)
+                        {
+                            <img src="@Url.Action("GetImage", "PackageTypes", new { id = item.Package.Type.PackageTypeID })" alt="Package Image" width="50" height="50" />
+                        }
+                        else
+                        {
+                            <p>No image available</p>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpectedDeliveryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusUpdateDate)
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.DeliveryID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.DeliveryID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    // Initialize tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Function to copy GUID to clipboard
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.style.position = "absolute";
+        tempInput.style.left = "-1000px";
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+
+        // Optionally, you can provide some feedback that the text was copied
+        alert("ID copied to clipboard: " + text);
+    }
+</script>
