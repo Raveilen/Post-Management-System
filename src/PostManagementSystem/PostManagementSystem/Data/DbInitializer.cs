@@ -13,7 +13,7 @@ namespace PostManagementSystem.Data
 {
     public class DbInitializer
     {
-        public static void Seed(PostManagementContext context)
+        public static async void Seed(PostManagementContext context, RoleManager<IdentityRole> roleManager)
         {
             //Cities
             if (!context.Cities.Any())
@@ -855,12 +855,19 @@ namespace PostManagementSystem.Data
             //Roles
             if (!context.Roles.Any())
             {
-                context.Roles.Add(new IdentityRole("Admin"));
-                context.Roles.Add(new IdentityRole("Customer"));
-                context.SaveChanges();
+                if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
+                {
+                    roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();
+                }
+
+                if (!roleManager.RoleExistsAsync("Customer").GetAwaiter().GetResult())
+                {
+                    roleManager.CreateAsync(new IdentityRole("Customer")).GetAwaiter().GetResult();
+                }
             }
 
-            //Users
+
+          /*  //Users
             if (!context.Users.Any() && context.Roles.Any())
             {
                 var hasher = new PasswordHasher<ApplicationUser>();
@@ -893,8 +900,11 @@ namespace PostManagementSystem.Data
                 context.Users.Add(customer);
                 context.Users.Add(admin);
 
+                await userManager.AddToRoleAsync(customer, "Customer");
+                await userManager.AddToRoleAsync(admin, "Admin");
+
                 context.SaveChanges();
-            }
+            }*/
         }
     }
 }

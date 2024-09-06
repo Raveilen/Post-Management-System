@@ -14,7 +14,8 @@ builder.Services.AddDbContext<PostManagementContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>()
+    .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PostManagementContext>();
 builder.Services.AddControllersWithViews();
@@ -39,7 +40,10 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<PostManagementContext>();
-        DbInitializer.Seed(context);
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+        DbInitializer.Seed(context, roleManager);
     }
     catch(Exception ex)
     {
