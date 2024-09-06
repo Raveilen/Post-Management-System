@@ -17,6 +17,7 @@ namespace PostManagementSystem.Data
         public static string smallImagePath = $"{pathToAssestDirectory}\\Small.jpg";
         public static string mediumImagePath = $"{pathToAssestDirectory}\\Medium.jpg";
         public static string largeImagePath = $"{pathToAssestDirectory}\\Large.jpg";
+        public static string logoutImagePath = $"{pathToAssestDirectory}\\Logout.jpg";
 
         public static byte[] ConvertImageToByteArray(string imagePath)
         {

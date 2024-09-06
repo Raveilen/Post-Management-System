@@ -12,7 +12,7 @@ using PostManagementSystem.ViewModels;
 
 namespace PostManagementSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class AddressesController : Controller
     {
         private readonly PostManagementContext _context;

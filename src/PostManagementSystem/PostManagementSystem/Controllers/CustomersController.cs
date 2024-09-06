@@ -11,7 +11,7 @@ using PostManagementSystem.Models;
 
 namespace PostManagementSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CustomersController : Controller
     {
         private readonly PostManagementContext _context;

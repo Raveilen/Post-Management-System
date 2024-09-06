@@ -58,6 +58,16 @@ body {
     min-height: fit-content;
 }
 
+.access-denied-bg {
+    background-color: #990000;
+    color: white;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    opacity: 0.85;
+    border-radius: 5px;
+}
+
 .page-title-frame {
     background-color: #003366;
     color: white;
