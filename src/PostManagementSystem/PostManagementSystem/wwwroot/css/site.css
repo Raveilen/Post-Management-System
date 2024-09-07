@@ -92,7 +92,13 @@ body {
 {
     background-color: #C95B0C;
     font-size: 16px;
+}
 
+.back-to-list-button
+{
+    background-color: #9a7b4f;
+    font-size: 16px;
+    color: white;
 }
 
 .bold

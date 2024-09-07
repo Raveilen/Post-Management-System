@@ -1,0 +1,114 @@
+﻿@model IEnumerable<PostManagementSystem.Models.PackageType>
+
+@{
+    ViewData["Title"] = "Available Package Types";
+}
+
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Size
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaxWeight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaxDimensions)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsFragile)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="guid-copy-container">
+                            <button type="button" class="btn btn-primary copyID-button"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="@item.PackageTypeID.ToString()"
+                                    onclick="copyToClipboard('@item.PackageTypeID.ToString()')">
+                                Copy ID
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaxWeight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaxDimensions)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsFragile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>
+                        @if (item.Image != null)
+                        {
+                            <img src="@Url.Action("GetImage", "PackageTypes", new { id = item.PackageTypeID })" alt="Package Image" width="50" height="50" />
+                        }
+                        else
+                        {
+                            <p>No image available</p>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="SelectPackaging" asp-route-id="@item.PackageTypeID" asp-controller="PackageTypes" style="display:inline;">
+                            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Select Packaging</button>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    // Initialize tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Function to copy GUID to clipboard
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.style.position = "absolute";
+        tempInput.style.left = "-1000px";
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+
+        // Optionally, you can provide some feedback that the text was copied
+        alert("ID copied to clipboard: " + text);
+    }
+</script>
+
+

@@ -29,6 +29,24 @@ namespace PostManagementSystem.Controllers
             return View(await _context.PackageTypes.ToListAsync());
         }
 
+        //GET: PackageTypes/ListPackaging
+        public async Task<IActionResult> ListPackaging()
+        {
+            return View(await _context.PackageTypes.ToListAsync());
+        }
+
+        //get: PackageTypes/SelectPackaging
+        [HttpGet]
+        public async Task<IActionResult> SelectPackaging(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("SetupSenderAndReceiver", "Customers", new { PackageTypeID = id});
+        }
+
         // GET: PackageTypes/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {

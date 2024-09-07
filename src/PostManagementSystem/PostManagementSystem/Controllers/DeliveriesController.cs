@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
+using PostManagementSystem.ViewModels;
 
 namespace PostManagementSystem.Controllers
 {
@@ -22,8 +24,15 @@ namespace PostManagementSystem.Controllers
         }
 
         // GET: Deliveries
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
+
+            ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+
+            var statusNames = _context.Statuses.Select(s => s.Name).ToList();
+            ViewData["Names"] = new SelectList(statusNames);
+
             var postManagementContext = _context.Deliveries
                 .Include(d => d.Status)
                 .Include(d => d.ReceiverPostOffice)
@@ -33,8 +42,25 @@ namespace PostManagementSystem.Controllers
                 .ThenInclude(po => po.Address)
                 .ThenInclude(a => a.City)
                 .Include(d => d.Package)
-                .ThenInclude(p => p.Type);
-            return View(await postManagementContext.ToListAsync());
+                .ThenInclude(p => p.Type)
+                .Select(d => d);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                postManagementContext = postManagementContext.Where(s => s.Status.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "Date":
+                    postManagementContext = postManagementContext.OrderBy(s => s.ExpectedDeliveryDate);
+                    break;
+                case "date_desc":
+                    postManagementContext = postManagementContext.OrderByDescending(s => s.ExpectedDeliveryDate);
+                    break;
+            }
+
+            return View(await postManagementContext.AsNoTracking().ToListAsync());
         }
 
         // GET: Deliveries/Details/5
@@ -76,6 +102,67 @@ namespace PostManagementSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(delivery);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateDelivery()
+        {
+            var SenderID = TempData["SenderID"] as Guid?;
+            var ReceiverID = TempData["ReceiverID"] as Guid?;
+            var PackageTypeID = TempData["PackageTypeID"] as Guid?;
+            var SenderOfficeID = TempData["SenderOfficeID"] as Guid?;
+            var ReceiverOfficeID = TempData["ReceiverOfficeID"] as Guid?;
+
+            var Sender = _context.Customers.FirstOrDefault(c => c.ID == SenderID);
+            var Receiver = _context.Customers.FirstOrDefault(c => c.ID == ReceiverID);
+            var PackageType = _context.PackageTypes.FirstOrDefault(p => p.PackageTypeID == PackageTypeID);
+            var SenderOffice = _context.PostOffices.Include(po => po.Address).FirstOrDefault(po => po.PostOfficeID == SenderOfficeID);
+            var ReceiverOffice = _context.PostOffices.Include(po => po.Address).FirstOrDefault(po => po.PostOfficeID == ReceiverOfficeID);
+
+            var CreateDate = DateTime.Now;
+            var ExpectedDeliveryDate = CreateDate.AddDays(3);
+            var StatusUpdateDate = CreateDate;
+
+            var UserEmail = User.Identity.Name;
+
+            var StatusID = _context.Statuses.FirstOrDefault(s => s.Name == "Ordered").StatusID;
+            var Status = _context.Statuses.FirstOrDefault(s => s.StatusID == StatusID);
+
+
+            var deliveryData = new CreateDeliveryViewModel
+            {
+                PackageTypeID = PackageTypeID,
+                PackageType = PackageType,
+                SenderID = SenderID,
+                Sender = Sender,
+                ReceiverID = ReceiverID,
+                Receiver = Receiver,
+                SenderOfficeID = SenderOfficeID,
+                SenderOffice = SenderOffice,
+                ReceiverOfficeID = ReceiverOfficeID,
+                ReceiverOffice = ReceiverOffice,
+                StatusID = StatusID,
+                Status = Status,
+                CreateDate = CreateDate,
+                StatusUpdateDate = StatusUpdateDate,
+                ExpectedDeliveryDate = ExpectedDeliveryDate,
+                UserEmail = UserEmail
+            };
+
+            return View(deliveryData);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateDelivery(CreateDeliveryViewModel deliveryData)
+        {
+            if (ModelState.IsValid)
+            {
+               
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Deliveries/Edit/5

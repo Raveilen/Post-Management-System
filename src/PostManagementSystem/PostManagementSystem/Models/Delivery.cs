@@ -18,7 +18,7 @@ namespace PostManagementSystem.Models
         
         [DataType(DataType.Date)]
         [DisplayName("Expected Delivery")]
-        public DateTime ExpectedDeliveryDate { get; set; } //depends on the package priority (standard or express)
+        public DateTime ExpectedDeliveryDate { get; set; }
         
         [DataType(DataType.Date)]
         [DisplayName("Status Update")]

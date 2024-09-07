@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
 using PostManagementSystem.ViewModels;
@@ -83,6 +84,76 @@ namespace PostManagementSystem.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: PostOffices/SetupSourcePO
+        [HttpGet]
+        public async Task<IActionResult> SetupSourcePO()
+        {
+            var SenderID = TempData["SenderID"] as Guid?;
+            var ReceiverID = TempData["ReceiverID"] as Guid?;
+            var PackageTypeID = TempData["PackageTypeID"] as Guid?;
+
+            TempData["SenderID"] = SenderID;
+            TempData["ReceiverID"] = ReceiverID;
+            TempData["PackageTypeID"] = PackageTypeID;
+
+            var postManagementContext = _context.PostOffices.Include(p => p.Address).ThenInclude(a => a.City);
+            return View(await postManagementContext.ToListAsync());
+        }
+
+        [HttpGet]
+        public IActionResult GetSenderPOID(Guid? id)
+        {
+            var SenderID = TempData["SenderID"] as Guid?;
+            var ReceiverID = TempData["ReceiverID"] as Guid?;
+            var PackageTypeID = TempData["PackageTypeID"] as Guid?;
+
+            TempData["SenderID"] = SenderID;
+            TempData["ReceiverID"] = ReceiverID;
+            TempData["PackageTypeID"] = PackageTypeID;
+            TempData["SenderOfficeID"] = id;
+
+            return RedirectToAction("SetupDestinationPO", "PostOffices");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SetupDestinationPO()
+        {
+            var SenderID = TempData["SenderID"] as Guid?;
+            var ReceiverID = TempData["ReceiverID"] as Guid?;
+            var PackageTypeID = TempData["PackageTypeID"] as Guid?;
+            var SenderOfficeID = TempData["SenderOfficeID"] as Guid?;
+
+            TempData["SenderID"] = SenderID;
+            TempData["ReceiverID"] = ReceiverID;
+            TempData["PackageTypeID"] = PackageTypeID;
+            TempData["SenderOfficeID"] = SenderOfficeID;
+
+            var postManagementContext = _context.PostOffices.Include(p => p.Address).ThenInclude(a => a.City);
+            return View(await postManagementContext.ToListAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetReceiverPOID(Guid? id)
+        {
+            var SenderID = TempData["SenderID"] as Guid?;
+            var ReceiverID = TempData["ReceiverID"] as Guid?;
+            var PackageTypeID = TempData["PackageTypeID"] as Guid?;
+            var SenderOfficeID = TempData["SenderOfficeID"] as Guid?;
+
+            if(SenderOfficeID == id) //sender and receiver are the same
+            {
+                return NotFound();
+            }
+
+            TempData["SenderID"] = SenderID;
+            TempData["ReceiverID"] = ReceiverID;
+            TempData["PackageTypeID"] = PackageTypeID;
+            TempData["SenderOfficeID"] = SenderOfficeID;
+            TempData["ReceiverOfficeID"] = id;
+
+            return RedirectToAction("CreateDelivery", "Deliveries");
         }
 
         // GET: PostOffices/Edit/5

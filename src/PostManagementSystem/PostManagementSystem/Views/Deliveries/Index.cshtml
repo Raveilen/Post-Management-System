@@ -13,10 +13,42 @@
 
 
     <p>
-        <a asp-action="Create" asp-controller="Deliveries" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Add Delivery</button>
+        <a asp-action="ListPackaging" asp-controller="PackageTypes" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Request Delivery</button>
         </a>
     </p>
+
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <div class="row">
+                <div class="col-md-1">
+                    Find by status:
+                </div>
+                
+                <div class="col-md-2">
+                    <select name="SearchString" id="SearchString">
+                    <option value="">-- Select a name --</option>
+                    @foreach (var name in (SelectList)ViewData["Names"])
+                    {
+                        <option value="@name.Text">@name.Text</option>
+                    }
+                    </select>
+                </div>
+                
+                <div class="col-md-1">
+                    <a asp-action="ListPackaging" asp-controller="PackageTypes" style="display:inline;">
+                        <button type="submit" value="Search" class="btn btn-primary create-button" id="searchButton" data-some-attribute="value">Search</button>
+                    </a>
+                </div>
+
+                <div class="col-md-2">
+                    <a asp-action="Index" asp-controller="Deliveries" style="display:inline;">
+                        <button type="submit" class="btn btn-primary back-to-list-button" id="toFullListButton" data-some-attribute="value">Back to Full List</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <table class="table">
         <thead>
@@ -43,7 +75,7 @@
                     @Html.DisplayNameFor(model => model.CreatedDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ExpectedDeliveryDate)
+                    <a asp-action="Index" asp-route-sortOrder="@(ViewData["DateSortParm"])">Expected delivery date</a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.StatusUpdateDate)

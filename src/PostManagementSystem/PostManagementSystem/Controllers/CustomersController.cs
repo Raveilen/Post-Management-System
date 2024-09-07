@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
+using PostManagementSystem.ViewModels;
 
 namespace PostManagementSystem.Controllers
 {
@@ -24,7 +25,7 @@ namespace PostManagementSystem.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            return View(await _context.Customers.OrderBy(c => c.Surname).AsNoTracking().ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -66,6 +67,71 @@ namespace PostManagementSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SetupSenderAndReceiver(Guid packageTypeID)
+        {
+            ViewData["PackageTypeID"] = packageTypeID; 
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetupSenderAndReceiver(SenderAndReceiverViewModel srvm)
+        {
+            var customers = _context.Customers.ToList();
+
+            var sender = customers
+                .Where(c => (c.Name == srvm.SenderName))
+                .Where(c => (c.Surname == srvm.SenderSurname))
+                .Where(c => (c.Phone == srvm.SenderPhone))
+                .FirstOrDefault();
+
+            if (sender == null)
+            {
+                sender = new Customer
+                {
+                    ID = Guid.NewGuid(),
+                    Name = srvm.SenderName,
+                    Surname = srvm.SenderSurname,
+                    Phone = srvm.SenderPhone
+                };
+                
+                await _context.Customers.AddAsync(sender);
+                await _context.SaveChangesAsync();
+            }
+
+            var receiver = customers
+                .Where(c => (c.Name == srvm.ReceiverName))
+                .Where(c => (c.Surname == srvm.ReceiverSurname))
+                .Where(c => (c.Phone == srvm.ReceiverPhone))
+                .FirstOrDefault();
+
+            if (receiver == null)
+            {
+                receiver = new Customer
+                {
+                    ID = Guid.NewGuid(),
+                    Name = srvm.ReceiverName,
+                    Surname = srvm.ReceiverSurname,
+                    Phone = srvm.ReceiverPhone
+                };
+
+                await _context.Customers.AddAsync(receiver);
+                await _context.SaveChangesAsync();
+            }
+
+            if(sender.ID == receiver.ID) //sender and receiver are the same
+            {
+                return NotFound();
+            }
+
+            TempData["SenderID"] = sender.ID;
+            TempData["ReceiverID"] = receiver.ID;
+            TempData["PackageTypeID"] = srvm.PackageTypeID;
+
+            return RedirectToAction("SetupSourcePO", "PostOffices");
         }
 
         // GET: Customers/Edit/5

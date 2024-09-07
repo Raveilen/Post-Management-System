@@ -1,0 +1,85 @@
+﻿@model PostManagementSystem.ViewModels.SenderAndReceiverViewModel
+
+@{
+    ViewData["Title"] = "Setup sender and receiver";
+}
+
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-md-6"><h4>Sender</h4></div>
+        <div class="col-md-6"><h4>Receiver</h4></div>
+        <hr />
+     </div>
+      <form asp-action="SetupSenderAndReceiver">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="PackageTypeID" />
+        <div class="row">
+            <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SenderName" class="control-label"></label>
+                        <input asp-for="SenderName" class="form-control" />
+                        <span asp-validation-for="SenderName" class="text-danger"></span>
+                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ReceiverName" class="control-label"></label>
+                    <input asp-for="ReceiverName" class="form-control" />
+                    <span asp-validation-for="ReceiverName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="SenderSurname" class="control-label"></label>
+                    <input asp-for="SenderSurname" class="form-control" />
+                    <span asp-validation-for="SenderSurname" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ReceiverSurname" class="control-label"></label>
+                    <input asp-for="ReceiverSurname" class="form-control" />
+                    <span asp-validation-for="ReceiverSurname" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="SenderPhone" class="control-label"></label>
+                    <input asp-for="SenderPhone" class="form-control" />
+                    <span asp-validation-for="SenderPhone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ReceiverPhone" class="control-label"></label>
+                    <input asp-for="ReceiverPhone" class="form-control" />
+                    <span asp-validation-for="ReceiverPhone" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        
+        <div class="form-group">
+            <input type="submit" value="Save Credentials" class="btn btn-primary create-button" />
+        </div>
+        </form>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

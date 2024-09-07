@@ -1,0 +1,79 @@
+﻿@model IEnumerable<PostManagementSystem.Models.PostOffice>
+
+@{
+    ViewData["Title"] = "Post Offices";
+}
+
+<div class="index-list-bg">
+
+    <div class="page-title-frame">
+        <h1>Choose Sender Post Office</h1>
+    </div>
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Address
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="guid-copy-container">
+                            <button type="button" class="btn btn-primary copyID-button"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="@item.PostOfficeID.ToString()"
+                                    onclick="copyToClipboard('@item.PostOfficeID.ToString()')">
+                                Copy ID
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.FullAddress)
+                    </td>
+                    <td>
+                        <a asp-action="GetSenderPOID" asp-route-id="@item.PostOfficeID">
+                            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Select Sender Office</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.PostOfficeID">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Initialize tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Function to copy GUID to clipboard
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.style.position = "absolute";
+        tempInput.style.left = "-1000px";
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+
+        // Optionally, you can provide some feedback that the text was copied
+        alert("ID copied to clipboard: " + text);
+    }
+</script>
+
