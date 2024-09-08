@@ -24,19 +24,19 @@ namespace PostManagementSystem.Models
         [DisplayName("Status Update")]
         public DateTime StatusUpdateDate { get; set; }
         
-        public Guid StatusID { get; set; }
+        public Guid? StatusID { get; set; }
         public Status Status { get; set; }
 
         [DisplayName("From Post Office")]
-        public Guid SenderPostOfficeID { get; set; }
+        public Guid? SenderPostOfficeID { get; set; }
         public PostOffice SenderPostOffice { get; set; }
 
         [DisplayName("To Post Office")]
-        public Guid ReceiverPostOfficeID { get; set; }
+        public Guid? ReceiverPostOfficeID { get; set; }
         public PostOffice ReceiverPostOffice { get; set; }
 
         [DisplayName("Package ID")]
-        public Guid PackageID { get; set; }
+        public Guid? PackageID { get; set; }
         public Package Package { get; set; }
     }
 }

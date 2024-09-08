@@ -1,0 +1,176 @@
+﻿@model PostManagementSystem.ViewModels.CreateDeliveryViewModel
+
+@{
+    ViewData["Title"] = "Request Summary";
+}
+
+<div class="index-list-bg">
+    <div class="page-title-frame">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <br />
+
+    <div>
+        <h4>Account</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Sender Email
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UserEmail)
+            </dd>
+        </dl>
+        <br />
+
+
+
+        <h4>Sender Data</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Name
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Sender.Name)
+            </dd>
+            <dt class="col-sm-2">
+               Surname
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Sender.Surname)
+            </dd>
+            <dt class="col-sm-2">
+                Phone
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Sender.Phone)
+            </dd>
+        </dl>
+        <br />
+
+
+        <h4>Receiver Data</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Name
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Receiver.Name)
+            </dd>
+            <dt class="col-sm-2">
+                Surname
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Receiver.Surname)
+            </dd>
+            <dt class="col-sm-2">
+                Phone
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Receiver.Phone)
+            </dd>
+        </dl>
+        <br />
+
+
+        <h4>Delivery Time</h4>
+        <hr />
+        <dt class="col-sm-2">
+            Request Create Date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+        <dt class="col-sm-2">
+            Expected Delivery Date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExpectedDeliveryDate)
+        </dd>
+        <br />
+
+
+        <h4>Post Offices</h4>
+        <hr />
+        <dt class="col-sm-2">
+            Sent From
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SenderOffice.Address.FullAddress)
+        </dd>
+        <dt class="col-sm-2">
+            Collect From
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReceiverOffice.Address.FullAddress)
+        </dd>
+        <br />
+
+
+        <h4>Package Data</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Package Size
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PackageType.Name)
+            </dd>
+            <dt class="col-sm-2">
+
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.PackageType.Image != null)
+                {
+                    <img src="@Url.Action("GetImage", "PackageTypes", new { id = Model.PackageType.PackageTypeID })" alt="Status Image" width="40" height="40" />
+                }
+                else
+                {
+                    <p>No image available</p>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Maximum Weight
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PackageType.MaxWeight)
+            </dd>
+            <dt class="col-sm-2">
+                Maximum Dimensions
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PackageType.MaxDimensions)
+            </dd>
+            <dt class="col-sm-2">
+                Cost
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PackageType.Cost)
+            </dd>
+            <dt class="col-sm-2">
+                Fragile
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.PackageType.IsFragile == true)
+                {
+                    <p>Yes</p>
+                }
+                else
+                {
+                    <p>No</p>
+                }
+            </dd>
+
+        </dl>
+
+        <br />
+
+        <form asp-action="CreateDeliveryPost" asp-controller="Deliveries" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-primary create-button" id="createButton" data-some-attribute="value">Confirm</button>
+        </form>
+    </div>
+</div>
+
+

@@ -9,13 +9,13 @@ namespace PostManagementSystem.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid PackageID { get; set; }
 
-        public Guid SenderID { get; set; }
+        public Guid? SenderID { get; set; }
         public Customer Sender { get; set; }
 
-        public Guid ReceiverID { get; set; }
+        public Guid? ReceiverID { get; set; }
         public Customer Receiver { get; set; }
 
-        public Guid PackageTypeID { get; set; }
+        public Guid? PackageTypeID { get; set; }
         public PackageType Type{ get; set; }
     }
 }

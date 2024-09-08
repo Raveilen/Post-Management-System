@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
 using PostManagementSystem.ViewModels;
@@ -116,8 +117,8 @@ namespace PostManagementSystem.Controllers
             var Sender = _context.Customers.FirstOrDefault(c => c.ID == SenderID);
             var Receiver = _context.Customers.FirstOrDefault(c => c.ID == ReceiverID);
             var PackageType = _context.PackageTypes.FirstOrDefault(p => p.PackageTypeID == PackageTypeID);
-            var SenderOffice = _context.PostOffices.Include(po => po.Address).FirstOrDefault(po => po.PostOfficeID == SenderOfficeID);
-            var ReceiverOffice = _context.PostOffices.Include(po => po.Address).FirstOrDefault(po => po.PostOfficeID == ReceiverOfficeID);
+            var SenderOffice = _context.PostOffices.Include(po => po.Address).ThenInclude(a => a.City).FirstOrDefault(po => po.PostOfficeID == SenderOfficeID);
+            var ReceiverOffice = _context.PostOffices.Include(po => po.Address).ThenInclude(a => a.City).FirstOrDefault(po => po.PostOfficeID == ReceiverOfficeID);
 
             var CreateDate = DateTime.Now;
             var ExpectedDeliveryDate = CreateDate.AddDays(3);
@@ -149,17 +150,56 @@ namespace PostManagementSystem.Controllers
                 UserEmail = UserEmail
             };
 
-            return View(deliveryData);
+            TempData["SenderID"] = SenderID;
+            TempData["ReceiverID"] = ReceiverID;
+            TempData["PackageTypeID"] = PackageTypeID;
+            TempData["SenderOfficeID"] = SenderOfficeID;
+            TempData["ReceiverOfficeID"] = ReceiverOfficeID;
+            TempData["StatusID"] = StatusID;
+            //TempData["Email"] = UserEmail;
+            TempData["CreateDate"] = CreateDate;
+            TempData["ExpectedDeliveryDate"] = ExpectedDeliveryDate;
 
+
+            return View(deliveryData);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDelivery(CreateDeliveryViewModel deliveryData)
+        public async Task<IActionResult> CreateDeliveryPost()
         {
             if (ModelState.IsValid)
             {
-               
+                Package package = new Package();
+
+                package.SenderID = TempData["SenderID"] as Guid?;
+                package.Sender = await _context.Customers.FirstOrDefaultAsync(c => c.ID == package.SenderID);
+                package.ReceiverID = TempData["ReceiverID"] as Guid?;
+                package.Receiver = await _context.Customers.FirstOrDefaultAsync(c => c.ID == package.ReceiverID);
+                package.PackageTypeID = TempData["PackageTypeID"] as Guid?;
+                package.Type = await _context.PackageTypes.FirstOrDefaultAsync(p => p.PackageTypeID == package.PackageTypeID);
+
+                await _context.AddAsync(package);
+
+                Delivery delivery = new Delivery();
+                delivery.CreatedDate = (DateTime)TempData["CreateDate"];
+                delivery.ExpectedDeliveryDate = (DateTime)TempData["ExpectedDeliveryDate"];
+                delivery.StatusUpdateDate = (DateTime)TempData["CreateDate"];
+                delivery.StatusID = TempData["StatusID"] as Guid?;
+                delivery.Status = await _context.Statuses.FirstOrDefaultAsync(s => s.StatusID == delivery.StatusID);
+                delivery.SenderPostOfficeID = TempData["SenderOfficeID"] as Guid?;
+                delivery.SenderPostOffice = await _context.PostOffices.FirstOrDefaultAsync(po => po.PostOfficeID == delivery.SenderPostOfficeID);
+                delivery.ReceiverPostOfficeID = TempData["ReceiverOfficeID"] as Guid?;
+                delivery.ReceiverPostOffice = await _context.PostOffices.FirstOrDefaultAsync(po => po.PostOfficeID == delivery.ReceiverPostOfficeID);
+                delivery.PackageID = package.PackageID;
+                delivery.Package = package;
+
+                await _context.AddAsync(delivery);
+                await _context.SaveChangesAsync();
+
+                RedirectToAction("Index", "Deliveries");
+
+
             }
 
             return RedirectToAction(nameof(Index));
@@ -173,47 +213,47 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries.FindAsync(id);
-            if (delivery == null)
+            var delivery = await _context.Deliveries.Include(d => d.Status).FirstOrDefaultAsync(d => d.DeliveryID == id);
+
+            if(delivery == null) 
             {
                 return NotFound();
             }
+
+            var statuses = await _context.Statuses.ToListAsync();
+            ViewData["Status"] = new SelectList(statuses, "StatusID", "Name", delivery.StatusID);
+
             return View(delivery);
         }
 
         // POST: Deliveries/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
+        //[Bind("DeliveryID,ExpectedDeliveryData,Status")]
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("DeliveryID,CreatedDate,ExpectedDeliveryDate,StatusUpdateDate")] Delivery delivery)
+        public async Task<IActionResult> Edit(Guid id,  Delivery deliveryData)
         {
-            if (id != delivery.DeliveryID)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
+                var delivery = await _context.Deliveries.Include(d=>d.Status).FirstOrDefaultAsync(d => d.DeliveryID == id);
+
+                if(delivery == null)
                 {
-                    _context.Update(delivery);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DeliveryExists(delivery.DeliveryID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                delivery.ExpectedDeliveryDate = deliveryData.ExpectedDeliveryDate;
+                var status = _context.Statuses.FirstOrDefault(s => s.StatusID == deliveryData.StatusID);
+                delivery.Status = status;
+                delivery.StatusID = status.StatusID;
+                delivery.StatusUpdateDate = DateTime.Today;
+
+                _context.SaveChanges();
+
             }
-            return View(delivery);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Deliveries/Delete/5
@@ -225,7 +265,17 @@ namespace PostManagementSystem.Controllers
             }
 
             var delivery = await _context.Deliveries
-                .FirstOrDefaultAsync(m => m.DeliveryID == id);
+                .Include(d => d.Status)
+                .Include(d => d.SenderPostOffice)
+                .ThenInclude(po => po.Address)
+                .ThenInclude(a => a.City)
+                .Include(d => d.ReceiverPostOffice)
+                .ThenInclude(po => po.Address)
+                .ThenInclude(a => a.City)
+                .Include(d => d.Package)
+                .ThenInclude(p => p.Type)
+                .FirstOrDefaultAsync(d => d.DeliveryID == id);
+
             if (delivery == null)
             {
                 return NotFound();
@@ -240,10 +290,20 @@ namespace PostManagementSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var delivery = await _context.Deliveries.FindAsync(id);
-            if (delivery != null)
+
+            if(delivery == null)
             {
-                _context.Deliveries.Remove(delivery);
+                return NotFound();
             }
+
+            var package = await _context.Packages.FirstOrDefaultAsync(p => p.PackageID == delivery.PackageID);
+            if(package == null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(package);
+            _context.Remove(delivery);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

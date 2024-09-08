@@ -1,4 +1,5 @@
 ﻿using PostManagementSystem.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PostManagementSystem.ViewModels
 {
@@ -22,7 +23,14 @@ namespace PostManagementSystem.ViewModels
         public Guid? StatusID { get; set; }
         public Status? Status { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime CreateDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpectedDeliveryDate { get; set; }
         public DateTime StatusUpdateDate { get; set; }
 
