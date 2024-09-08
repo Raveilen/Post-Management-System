@@ -9,10 +9,6 @@ namespace PostManagementSystem.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid PostOfficeID { get; set; }
 
-        public int packageSCapacity { get; set; }
-        public int packageMCapacity { get; set; }
-        public int packageLCapacity { get; set; }
-
         public Guid AddressID { get; set; }
         public Address Address { get; set; }
     }

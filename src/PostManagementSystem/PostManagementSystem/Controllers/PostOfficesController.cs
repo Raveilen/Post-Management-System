@@ -52,8 +52,18 @@ namespace PostManagementSystem.Controllers
         // GET: PostOffices/Create
         public IActionResult Create()
         {
-            var addresses = _context.Addresses.Include(a => a.City).ToList();
-            ViewData["Address"] = new SelectList(addresses, "AddressID", "FullAddress");
+            var occupiedAddresses = _context.PostOffices.Include(po => po.Address).ThenInclude(a => a.City).Select(p => p.Address.FullAddress).ToList();
+            var fullAddresses = _context.Addresses.Include(a => a.City).ToList();
+            var freeAddresses = new List<Address>();
+            foreach (var address in fullAddresses)
+            {
+                if (occupiedAddresses.Contains(address.FullAddress) == false)
+                {
+                    freeAddresses.Add(address);
+                }
+            }
+
+            ViewData["Address"] = new SelectList(freeAddresses, "AddressID", "FullAddress");
             return View();
         }
 
@@ -67,9 +77,6 @@ namespace PostManagementSystem.Controllers
             if (ModelState.IsValid)
             {
                 PostOffice postOffice = new();
-                postOffice.packageSCapacity = postOfficeData.SCapacity;
-                postOffice.packageMCapacity = postOfficeData.MCapacity;
-                postOffice.packageLCapacity = postOfficeData.LCapacity;
                 postOffice.AddressID = postOfficeData.AddressID;
 
                 var address = _context.Addresses.FirstOrDefault(a => a.AddressID == postOfficeData.AddressID);
@@ -175,13 +182,20 @@ namespace PostManagementSystem.Controllers
             {
                 PostOfficeID = postOffice.PostOfficeID,
                 AddressID = postOffice.AddressID,
-                SCapacity = postOffice.packageSCapacity,
-                MCapacity = postOffice.packageMCapacity,
-                LCapacity = postOffice.packageLCapacity
             };
 
+            var occupiedAddresses = _context.PostOffices.Include(po => po.Address).ThenInclude(a => a.City).Select(p => p.Address.FullAddress).ToList();
             var fullAddresses = _context.Addresses.Include(a => a.City).ToList();
-            ViewData["Address"] = new SelectList(fullAddresses, "AddressID", "FullAddress");
+            var freeAddresses = new List<Address>();
+            foreach (var address in fullAddresses)
+            {
+                if(occupiedAddresses.Contains(address.FullAddress) == false)
+                {
+                    freeAddresses.Add(address);
+                }
+            }
+
+            ViewData["Address"] = new SelectList(freeAddresses, "AddressID", "FullAddress");
             return View(postOfficeData);
         }
 
@@ -206,9 +220,6 @@ namespace PostManagementSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                postOffice.packageSCapacity = postOfficeData.SCapacity;
-                postOffice.packageMCapacity = postOfficeData.MCapacity;
-                postOffice.packageLCapacity = postOfficeData.LCapacity;
                 postOffice.AddressID = postOfficeData.AddressID;
                 
                 var address = _context.Addresses.FirstOrDefault(a => a.AddressID == postOfficeData.AddressID);

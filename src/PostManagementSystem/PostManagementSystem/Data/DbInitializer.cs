@@ -241,75 +241,39 @@ namespace PostManagementSystem.Data
                 var postOffices = new PostOffice[]
                 {
                     new PostOffice {
-                        packageSCapacity = 10,
-                        packageMCapacity = 15,
-                        packageLCapacity = 5,
                         Address = addresses.Single(a => a.Street == "Nowy Świat"),
                         AddressID = addresses.Single(a => a.Street == "Nowy Świat").AddressID },
                     new PostOffice {
-                        packageSCapacity = 8,
-                        packageMCapacity = 14,
-                        packageLCapacity = 8,
                         Address = addresses.Single(a => a.Street == "Floriańska"),
                         AddressID = addresses.Single(a => a.Street == "Floriańska").AddressID },
                     new PostOffice {
-                        packageSCapacity = 10,
-                        packageMCapacity = 15,
-                        packageLCapacity = 12,
                         Address = addresses.Single(a => a.Street == "Świdnicka"),
                         AddressID = addresses.Single(a => a.Street == "Świdnicka").AddressID },
                     new PostOffice {
-                        packageSCapacity = 18,
-                        packageMCapacity = 9,
-                        packageLCapacity = 5,
                         Address = addresses.Single(a => a.Street == "Półwiejska"),
                         AddressID = addresses.Single(a => a.Street == "Półwiejska").AddressID },
                     new PostOffice {
-                        packageSCapacity = 30,
-                        packageMCapacity = 15,
-                        packageLCapacity = 3,
                         Address = addresses.Single(a => a.Street == "Długa"),
                         AddressID = addresses.Single(a => a.Street == "Długa").AddressID },
                     new PostOffice {
-                        packageSCapacity = 20,
-                        packageMCapacity = 10,
-                        packageLCapacity = 6,
                         Address = addresses.Single(a => a.Street == "Aleja Wyzwolenia"),
                         AddressID = addresses.Single(a => a.Street == "Aleja Wyzwolenia").AddressID },
                     new PostOffice {
-                        packageSCapacity = 10,
-                        packageMCapacity = 5,
-                        packageLCapacity = 7,
                         Address = addresses.Single(a => a.Street == "Gdańska"),
                         AddressID = addresses.Single(a => a.Street == "Gdańska").AddressID },
                     new PostOffice {
-                        packageSCapacity = 5,
-                        packageMCapacity = 2,
-                        packageLCapacity = 6,
                         Address = addresses.Single(a => a.Street == "Krakowskie Przedmieście"),
                         AddressID = addresses.Single(a => a.Street == "Krakowskie Przedmieście").AddressID },
                     new PostOffice {
-                        packageSCapacity = 10,
-                        packageMCapacity = 15,
-                        packageLCapacity = 9,
                         Address = addresses.Single(a => a.Street == "Mokotowska"),
                         AddressID = addresses.Single(a => a.Street == "Mokotowska").AddressID },
                     new PostOffice {
-                        packageSCapacity = 9,
-                        packageMCapacity = 14,
-                        packageLCapacity = 4,
                         Address = addresses.Single(a => a.Street == "Grodzka"),
                         AddressID = addresses.Single(a => a.Street == "Grodzka").AddressID },
                     new PostOffice {
-                        packageSCapacity = 16,
-                        packageMCapacity = 13,
-                        packageLCapacity = 10,
                         Address = addresses.Single(a => a.Street == "Oławska"),
                         AddressID = addresses.Single(a => a.Street == "Oławska").AddressID },
                     new PostOffice {
-                        packageSCapacity = 12,
-                        packageMCapacity = 12,
-                        packageLCapacity = 5,
                         Address = addresses.Single(a => a.Street == "Święty Marcin"),
                         AddressID = addresses.Single(a => a.Street == "Święty Marcin").AddressID }
                 };
@@ -717,7 +681,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Grodzka"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Grodzka").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "Ordered"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "Ordered").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "Ordered").StatusID,
+                         UserEmail = "customer1@test.com"
                      },
                      new Delivery {
                          CreatedDate = DateTime.Parse("2024-08-24 12:35:00"),
@@ -730,7 +695,9 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Grodzka"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Grodzka").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "Ordered"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "Ordered").StatusID },
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "Ordered").StatusID,
+                         UserEmail = "customer2@test.com"
+                     },
                      new Delivery {
                          CreatedDate = DateTime.Parse("2024-08-23 10:05:00"),
                          ExpectedDeliveryDate = DateTime.Parse("2024-08-26 15:00:00"),
@@ -742,7 +709,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Świdnicka"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Świdnicka").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "In Transit"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "In Transit").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "In Transit").StatusID,
+                         UserEmail = "customer3test.com"
                      },
 
                      new Delivery {
@@ -756,7 +724,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Aleja Wyzwolenia"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Aleja Wyzwolenia").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "Collected"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "Collected").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "Collected").StatusID,
+                         UserEmail = "customer1@test.com"
                      },
 
                      new Delivery {
@@ -770,7 +739,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Długa"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Długa").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "Returned"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "Returned").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "Returned").StatusID,
+                         UserEmail = "customer2@test.com"
                      },
 
                      new Delivery {
@@ -784,7 +754,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Gdańska"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Gdańska").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "Packed"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "Packed").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "Packed").StatusID,
+                         UserEmail = "customer3@test.com"
                      },
 
                      new Delivery {
@@ -798,7 +769,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Oławska"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Oławska").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "Ordered"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "Ordered").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "Ordered").StatusID,
+                         UserEmail = "customer2@test.com"
                      },
 
                      new Delivery {
@@ -812,7 +784,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Półwiejska"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Półwiejska").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "Collected"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "Collected").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "Collected").StatusID,
+                         UserEmail = "customer3@test.com"
                      },
 
                      new Delivery {
@@ -826,7 +799,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Krakowskie Przedmieście"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Krakowskie Przedmieście").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "In Transit"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "In Transit").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "In Transit").StatusID,
+                         UserEmail = "customer2@test.com"
                      },
 
                      new Delivery {
@@ -840,7 +814,8 @@ namespace PostManagementSystem.Data
                          ReceiverPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Długa"),
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Długa").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "In Transit"),
-                         StatusID = statuses.FirstOrDefault(s => s.Name == "In Transit").StatusID
+                         StatusID = statuses.FirstOrDefault(s => s.Name == "In Transit").StatusID,
+                         UserEmail = "customer3@test.com"
                      }
                  };
 
