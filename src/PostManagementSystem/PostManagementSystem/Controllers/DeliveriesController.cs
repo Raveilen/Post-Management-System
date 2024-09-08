@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+using NuGet.Packaging.Core;
 using PostManagementSystem.Data;
 using PostManagementSystem.Models;
 using PostManagementSystem.ViewModels;
+using SQLitePCL;
 
 namespace PostManagementSystem.Controllers
 {
@@ -27,24 +29,47 @@ namespace PostManagementSystem.Controllers
         // GET: Deliveries
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-
             ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
 
             var statusNames = _context.Statuses.Select(s => s.Name).ToList();
             ViewData["Names"] = new SelectList(statusNames);
 
-            var postManagementContext = _context.Deliveries
-                .Include(d => d.Status)
-                .Include(d => d.ReceiverPostOffice)
-                .ThenInclude(po => po.Address)
-                .ThenInclude(a => a.City)
-                .Include(d => d.SenderPostOffice)
-                .ThenInclude(po => po.Address)
-                .ThenInclude(a => a.City)
-                .Include(d => d.Package)
-                .ThenInclude(p => p.Type)
-                .Select(d => d);
+            IQueryable<Delivery> postManagementContext = null;
+
+            if (User.IsInRole("Admin"))
+            {
+                postManagementContext = _context.Deliveries
+               .Include(d => d.Status)
+               .Include(d => d.ReceiverPostOffice)
+               .ThenInclude(po => po.Address)
+               .ThenInclude(a => a.City)
+               .Include(d => d.SenderPostOffice)
+               .ThenInclude(po => po.Address)
+               .ThenInclude(a => a.City)
+               .Include(d => d.Package)
+               .ThenInclude(p => p.Type)
+               .Select(d => d);
+            }
+            else if (User.IsInRole("Customer"))
+            {
+                postManagementContext = _context.Deliveries
+               .Include(d => d.Status)
+               .Include(d => d.ReceiverPostOffice)
+               .ThenInclude(po => po.Address)
+               .ThenInclude(a => a.City)
+               .Include(d => d.SenderPostOffice)
+               .ThenInclude(po => po.Address)
+               .ThenInclude(a => a.City)
+               .Include(d => d.Package)
+               .ThenInclude(p => p.Type)
+               .Where(d => d.UserEmail.ToUpper() == User.Identity.Name.ToUpper());
+            }
+
+            if (postManagementContext == null)
+            {
+                return NotFound();
+            }
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -72,14 +97,34 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries
-                .FirstOrDefaultAsync(m => m.DeliveryID == id);
-            if (delivery == null)
+            var delivery = _context.Deliveries
+               .Include(d => d.Package)
+               .FirstOrDefault(d => d.DeliveryID == id);
+
+            if(delivery == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(delivery);
+            var package = _context.Packages
+                .Include(p => p.Sender)
+                .Include(p => p.Receiver)
+                .Include(p => p.Type)
+                .FirstOrDefault(p => p.PackageID == delivery.PackageID);
+
+            if (package == null)
+            {
+                return BadRequest();
+            }
+
+            var deliveryData = new CreateDeliveryViewModel
+            {
+                Sender = package.Sender,
+                Receiver = package.Receiver,
+                PackageType = package.Type
+            };
+
+            return View(deliveryData);
         }
 
         // GET: Deliveries/Create
@@ -216,7 +261,7 @@ namespace PostManagementSystem.Controllers
 
             var delivery = await _context.Deliveries.Include(d => d.Status).FirstOrDefaultAsync(d => d.DeliveryID == id);
 
-            if(delivery == null) 
+            if (delivery == null)
             {
                 return NotFound();
             }
@@ -233,14 +278,14 @@ namespace PostManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id,  Delivery deliveryData)
+        public async Task<IActionResult> Edit(Guid id, Delivery deliveryData)
         {
 
             if (!ModelState.IsValid)
             {
-                var delivery = await _context.Deliveries.Include(d=>d.Status).FirstOrDefaultAsync(d => d.DeliveryID == id);
+                var delivery = await _context.Deliveries.Include(d => d.Status).FirstOrDefaultAsync(d => d.DeliveryID == id);
 
-                if(delivery == null)
+                if (delivery == null)
                 {
                     return NotFound();
                 }
@@ -292,13 +337,13 @@ namespace PostManagementSystem.Controllers
         {
             var delivery = await _context.Deliveries.FindAsync(id);
 
-            if(delivery == null)
+            if (delivery == null)
             {
                 return NotFound();
             }
 
             var package = await _context.Packages.FirstOrDefaultAsync(p => p.PackageID == delivery.PackageID);
-            if(package == null)
+            if (package == null)
             {
                 return NotFound();
             }
@@ -313,6 +358,25 @@ namespace PostManagementSystem.Controllers
         private bool DeliveryExists(Guid id)
         {
             return _context.Deliveries.Any(e => e.DeliveryID == id);
+        }
+
+        public async Task<IActionResult> CollectPackage(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var delivery = await _context.Deliveries.Include(d => d.Status).FirstOrDefaultAsync(d => d.DeliveryID == id);
+
+            if (delivery == null)
+            {
+                return BadRequest();
+            }
+
+            delivery.Status = await _context.Statuses.FirstOrDefaultAsync(s => s.Name == "Collected");
+            await _context.SaveChangesAsync();
+            return View();
         }
     }
 }

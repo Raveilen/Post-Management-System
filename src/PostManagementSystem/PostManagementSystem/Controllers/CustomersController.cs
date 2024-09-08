@@ -12,7 +12,7 @@ using PostManagementSystem.ViewModels;
 
 namespace PostManagementSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class CustomersController : Controller
     {
         private readonly PostManagementContext _context;
@@ -23,12 +23,14 @@ namespace PostManagementSystem.Controllers
         }
 
         // GET: Customers
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Customers.OrderBy(c => c.Surname).AsNoTracking().ToListAsync());
         }
 
         // GET: Customers/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -46,6 +48,8 @@ namespace PostManagementSystem.Controllers
             return View(customer);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -55,6 +59,7 @@ namespace PostManagementSystem.Controllers
         // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Surname,Phone")] Customer customer)
@@ -135,6 +140,7 @@ namespace PostManagementSystem.Controllers
         }
 
         // GET: Customers/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -153,6 +159,7 @@ namespace PostManagementSystem.Controllers
         // POST: Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("ID,Name,Surname,Phone")] Customer customer)
@@ -186,6 +193,7 @@ namespace PostManagementSystem.Controllers
         }
 
         // GET: Customers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -204,6 +212,7 @@ namespace PostManagementSystem.Controllers
         }
 
         // POST: Customers/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

@@ -1,8 +1,75 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div class="index-list-bg">
+    <div class="text-center">
+        <div style="background-color:#583927; width: 50%; margin: 0 auto" class="center-div page-title-frame">
+            <h1>PACK TRACKER</h1>
+            <h3>ADMIN PANEL</h3>
+        </div>
+        <br />
+        <br />
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <h2>Welcome to Pack Tracker!</h2>
+        <br />
+        <h4>Simple apllication for post tracking and package collecting</h4>
+        <br />
+
+        @if(User.IsInRole("Admin"))
+        {
+            <table class="row index-list-bg" style="width: 42%; margin: 0 auto">
+                <td class="col-md-5">
+                    <div>
+                        <a asp-action="Index" asp-controller="Deliveries" style="display:inline;">
+                            <button type="submit" value="CheckPackages" class="btn btn-primary main-menu-button" id="searchButton" data-some-attribute="value">SHOW PACKAGES</button>
+                        </a>
+                    </div>
+                </td>
+                <td class="col-md-5">
+                    <div>
+                        <a asp-action="ListPackaging" asp-controller="PackageTypes" style="display:inline;">
+                            <button type="submit" value="CheckPackages" class="btn btn-primary main-menu-button" id="searchButton" data-some-attribute="value">SEND PACKAGE</button>
+                        </a>
+                    </div>
+                    </td>
+            </table>
+
+        <table class="row index-list-bg" style="width: 42%; margin: 0 auto">
+            <td class="col-md-5">
+                <div>
+                    <a asp-action="Index" asp-controller="Users" style="display:inline;">
+                        <button type="submit" value="CheckPackages" class="btn btn-primary main-menu-button" id="searchButton" data-some-attribute="value">SHOW USERS</button>
+                    </a>
+                </div>
+            </td>
+            <td class="col-md-5">
+                <div>
+                    <a asp-action="Index" asp-controller="Home" style="display:inline;">
+                        <button type="submit" value="CheckPackages" class="btn btn-primary main-menu-button" id="searchButton" data-some-attribute="value">SHOW STATISTICS</button>
+                    </a>
+                </div>
+            </td>
+        </table>
+        }
+        else
+        {
+            <table class="row index-list-bg" style="width: 42%; margin: 0 auto">
+                <td class="col-md-5">
+                    <div >
+                        <a asp-action="Index" asp-controller="Deliveries" style="display:inline;">
+                            <button type="submit" value="CheckPackages" class="btn btn-primary main-menu-button" id="searchButton" data-some-attribute="value">SHOW PACKAGES</button>
+                        </a>
+                    </div>
+                </td>
+                <td class="col-md-5">
+                    <div >
+                        <a asp-action="ListPackaging" asp-controller="PackageTypes" style="display:inline;">
+                            <button type="submit" value="CheckPackages" class="btn btn-primary main-menu-button" id="searchButton" data-some-attribute="value">SEND PACKAGE</button>
+                        </a>
+                    </div>
+                </td>
+            </table>
+        }
+    </div>
 </div>
+

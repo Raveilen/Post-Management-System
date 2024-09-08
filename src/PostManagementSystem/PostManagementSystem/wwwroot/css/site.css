@@ -56,6 +56,7 @@ body {
     font-family: Arial;
     min-width: fit-content;
     min-height: fit-content;
+    font-size:18px;
 }
 
 .access-denied-bg {
@@ -91,17 +92,43 @@ body {
 .create-button
 {
     background-color: #C95B0C;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .back-to-list-button
 {
     background-color: #9a7b4f;
-    font-size: 16px;
+    font-size: 18px;
     color: white;
+}
+
+.main-menu-button {
+    background-color: #C95B0C;
+    font-size: 18px;
+    width: 210px
 }
 
 .bold
 {
     font-weight: 600;
+}
+
+.page-title-frame {
+    background-color: #003366;
+    color: white;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    opacity: 0.85;
+    border-radius: 5px;
+}
+
+.center-div {
+    width: 50%;
+    margin: 0 auto
+}
+
+.nav-bar-font {
+   font-size: 24px;
+   font-weight: 600;
 }

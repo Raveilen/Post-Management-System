@@ -19,8 +19,6 @@ namespace PostManagementSystem.Controllers
         {
             //with Login
             return !this.User.Identity.IsAuthenticated? this.Redirect("~/Identity/Account/Login"): View();
-            //no Login
-            return View();
         }
 
         public IActionResult Privacy()
