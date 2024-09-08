@@ -78,7 +78,6 @@ namespace PostManagementSystem.Controllers
 
             var userData = new UserViewModel
             {
-                Email = user.Email,
                 Role = user.Role.Name
             };
 
@@ -107,17 +106,12 @@ namespace PostManagementSystem.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                user.Email = userData.Email;
+            
+            var roles = await _context.Roles.ToListAsync();
+            user.RoleID = roles.Where(r => r.Name == userData.Role).FirstOrDefault().Id;
+            user.Role = roles.Where(r => r.Name == userData.Role).FirstOrDefault();
 
-                var roles = await _context.Roles.ToListAsync();
-                user.RoleID = roles.Where(r => r.Name == userData.Role).FirstOrDefault().Id;
-                user.Role = roles.Where(r => r.Name == userData.Role).FirstOrDefault();
-
-                _context.SaveChanges();
-
-            }
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -150,6 +144,11 @@ namespace PostManagementSystem.Controllers
             var user = await _context.Users.FindAsync(id);
             if (user != null)
             {
+                if(user.UserName == User.Identity.Name)
+                {
+                    return BadRequest();
+                }
+
                 _context.Users.Remove(user);
             }
 

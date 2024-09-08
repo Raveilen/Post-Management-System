@@ -290,7 +290,7 @@ namespace PostManagementSystem.Data
             }
 
             //debug info
-            var assetsPath = ImageConverter.pathToAssestDirectory;
+            var assetsPath = ImageConverter.pathToAssetsDirectory;
 
             //Statuses
             if (!context.Statuses.Any())
