@@ -156,7 +156,7 @@ namespace PostManagementSystem.Controllers
             TempData["SenderOfficeID"] = SenderOfficeID;
             TempData["ReceiverOfficeID"] = ReceiverOfficeID;
             TempData["StatusID"] = StatusID;
-            //TempData["Email"] = UserEmail;
+            TempData["Email"] = UserEmail;
             TempData["CreateDate"] = CreateDate;
             TempData["ExpectedDeliveryDate"] = ExpectedDeliveryDate;
 
@@ -193,6 +193,7 @@ namespace PostManagementSystem.Controllers
                 delivery.ReceiverPostOffice = await _context.PostOffices.FirstOrDefaultAsync(po => po.PostOfficeID == delivery.ReceiverPostOfficeID);
                 delivery.PackageID = package.PackageID;
                 delivery.Package = package;
+                delivery.UserEmail = TempData["Email"] as string;
 
                 await _context.AddAsync(delivery);
                 await _context.SaveChangesAsync();

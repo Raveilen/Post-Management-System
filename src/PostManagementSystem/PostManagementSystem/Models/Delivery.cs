@@ -12,6 +12,8 @@ namespace PostManagementSystem.Models
         [DisplayName("Delivery ID")]
         public Guid DeliveryID { get; set; }
 
+        public string UserEmail { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayName("Created")]
         public DateTime CreatedDate { get; set; }
