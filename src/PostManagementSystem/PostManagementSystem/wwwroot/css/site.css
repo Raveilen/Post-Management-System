@@ -75,7 +75,7 @@ body {
     width: fit-content;
     height: fit-content;
     padding: 10px;
-    opacity: 0.85;
+    opacity: 0.90;
     border-radius: 5px;
 }
 
@@ -95,9 +95,8 @@ body {
     font-size: 18px;
 }
 
-.back-to-list-button
-{
-    background-color: #9a7b4f;
+.back-to-list-button {
+    background-color: #C95B0C;
     font-size: 18px;
     color: white;
 }
@@ -129,6 +128,30 @@ body {
 }
 
 .nav-bar-font {
-   font-size: 24px;
+   font-size: 21px;
    font-weight: 600;
+}
+
+.logout-button {
+    background-color: #583927;
+    color: white;
+}
+
+.btn-primary:active,
+.btn-primary:hover,
+.btn-primary.focus,
+.btn-primary.active {
+    background-color: #003366 !important;
+    border-color: #003366 !important;
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-item {
+    flex-grow: 1;
+    text-align: center;
 }

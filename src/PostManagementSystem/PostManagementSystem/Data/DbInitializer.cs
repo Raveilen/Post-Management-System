@@ -710,7 +710,7 @@ namespace PostManagementSystem.Data
                          ReceiverPostOfficeID = postOffices.FirstOrDefault(po => po.Address.Street == "Świdnicka").PostOfficeID,
                          Status = statuses.FirstOrDefault(s => s.Name == "In Transit"),
                          StatusID = statuses.FirstOrDefault(s => s.Name == "In Transit").StatusID,
-                         UserEmail = "customer3test.com"
+                         UserEmail = "customer3@test.com"
                      },
 
                      new Delivery {

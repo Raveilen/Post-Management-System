@@ -4,13 +4,12 @@
     ViewData["Title"] = "Register";
 }
 
+<div class="login-screen-alignment page-title-frame">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<br />
+
 <div class="login-bg">
-    <div class="login-screen-alignment page-title-frame">
-        <h1>@ViewData["Title"]</h1>
-    </div>
-    <br />
-
-
             <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                 <h2>Create a new account.</h2>
                 <hr />
