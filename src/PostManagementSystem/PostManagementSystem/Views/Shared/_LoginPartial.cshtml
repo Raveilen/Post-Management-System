@@ -17,10 +17,14 @@
 else
 {
     <li class="nav-item">
-            <a class="nav-link text-dark nav-bar-font" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <form class="nav-link text-dark nav-bar-font" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button style="color:white;" type="submit" class="nav-link btn btn-link btn-primary logout-button nav-bar-font">Register</button>
+            </form>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark nav-bar-font" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <form class="nav-link text-dark nav-bar-font" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button style="color:white;" type="submit" class="nav-link btn btn-link btn-primary logout-button nav-bar-font">Login</button>
+            </form>
     </li>
 }
 </ul>

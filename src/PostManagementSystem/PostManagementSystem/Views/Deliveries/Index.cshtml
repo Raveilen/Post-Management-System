@@ -159,6 +159,7 @@
                                         <button type="submit" value="Search" class="btn btn-primary create-button" id="searchButton" data-some-attribute="value">Collect</button>
                                     </a>
                                 </div>
+                                <a asp-action="Details" asp-route-id="@item.DeliveryID">Details</a>
                             </td>
                             
                         }
@@ -170,7 +171,9 @@
                                         <button style="background-color: darkgrey" type="submit" value="Search" class="btn btn-primary create-button" id="searchButton" data-some-attribute="value" disabled>Collect</button>
                                     </a>
                                 </div>
+                                <a asp-action="Details" asp-route-id="@item.DeliveryID">Details</a>
                             </td>
+                            
                         }
 
                     }

@@ -143,15 +143,21 @@ body {
 .btn-primary.active {
     background-color: #003366 !important;
     border-color: #003366 !important;
+    color: white;
 }
 
-.navbar-nav {
-    display: flex;
-    justify-content: space-between;
+.custom-nav-link {
+    padding: 10px 15px;
+}
+
+/*.custom-navbar-nav {
+    display: grid;
+    justify-content: space-evenly;
     width: 100%;
 }
 
-.nav-item {
+.custom-nav-item {
     flex-grow: 1;
     text-align: center;
 }
+*/

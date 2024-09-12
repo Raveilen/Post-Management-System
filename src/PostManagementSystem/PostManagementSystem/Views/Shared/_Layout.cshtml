@@ -17,43 +17,43 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between custom-navbar-nav">
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
+                            <li class="nav-item custom-nav-item ">
                                 <form class="form-inline" asp-area="" asp-controller="Deliveries" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Deliveries</button>
+                                    <button style="border-color:#FFFDD0; color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Deliveries</button>
                                 </form>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item custom-nav-item ">
                                 <form class="form-inline" asp-area="" asp-controller="PostOffices" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Post Offices</button>
+                                    <button style="border-color:#FFFDD0; color:white; border-color:#77543C; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Post Offices</button>
                                 </form>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item custom-nav-item ">
                                 <form class="form-inline" asp-area="" asp-controller="Cities" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Cities</button>
+                                    <button style="border-color:#FFFDD0; color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Cities</button>
                                 </form>
-                            </li class="nav-item">
-                            <li class="nav-item">
+                            </li>
+                            <li class="nav-item custom-nav-item ">
                                 <form class="form-inline" asp-area="" asp-controller="Addresses" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Addresses</button>
+                                    <button style="border-color:#FFFDD0; color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Addresses</button>
                                 </form>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item custom-nav-item ">
                                 <form class="form-inline" asp-area="" asp-controller="PackageTypes" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Packaging</button>
+                                    <button style="border-color:#FFFDD0; color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Packaging</button>
                                 </form>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item custom-nav-item ">
                                 <form class="form-inline" asp-area="" asp-controller="Customers" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Customers</button>
+                                    <button style=" border-color:#FFFDD0; color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Customers</button>
                                 </form>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item custom-nav-item ">
                                 <form class="form-inline" asp-area="" asp-controller="Users" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Users</button>
+                                    <button style="border-color:#FFFDD0; color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Users</button>
                                 </form>
                             </li>
                         }
@@ -61,7 +61,7 @@
                         {
                             <li class="nav-item">
                                 <form class="form-inline" asp-area="" asp-controller="Deliveries" asp-action="Index">
-                                    <button style="color:white; background-color:#77543C" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Deliveries</button>
+                                    <button style="color:white; background-color:#FFFDD0" type="submit" class="nav-link btn btn-link btn-primary nav-bar-font">Deliveries</button>
                                 </form>
                             </li>
                         }
