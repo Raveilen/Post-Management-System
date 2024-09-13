@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PostManagementSystem.Models;
 
@@ -109,7 +110,7 @@ namespace PostManagementSystem.Areas.Identity.Pages.Account
             [Display(Name = "Role")]
             public string? Role { get; set;  }
 
-            [ValidateNever] //chyba do listy rozwijanej
+            [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
@@ -121,11 +122,17 @@ namespace PostManagementSystem.Areas.Identity.Pages.Account
 
             Input = new InputModel()
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = ((User != null && User.IsInRole("Admin")) || _userManager.Users.Count() == 0) 
+                ? _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
                 })
+                : _roleManager.Roles.Where(x=>x.Name == "Customer").Select(x => x.Name).Select(i => new SelectListItem
+                 {
+                     Text = i,
+                     Value = i
+                 })
             };
 
         }

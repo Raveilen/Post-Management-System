@@ -671,9 +671,9 @@ namespace PostManagementSystem.Data
                 {
                      new Delivery
                      {
-                         CreatedDate = DateTime.Parse("2024-08-24 12:35:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-27 18:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-24 12:42:00"),
+                         CreatedDate = DateTime.Parse("2024-09-13 12:35:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-27 18:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-13 12:35:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Jan" && p.Sender.Surname == "Kowalski"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Jan" && p.Sender.Surname == "Kowalski").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Nowy Świat"),
@@ -685,9 +685,9 @@ namespace PostManagementSystem.Data
                          UserEmail = "customer1@test.com"
                      },
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-24 12:35:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-27 18:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-24 12:42:00"),
+                         CreatedDate = DateTime.Parse("2024-09-12 12:35:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-27 18:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-12 12:35:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Jan" && p.Sender.Surname == "Kowalski"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Jan" && p.Sender.Surname == "Kowalski").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Nowy Świat"),
@@ -699,9 +699,9 @@ namespace PostManagementSystem.Data
                          UserEmail = "customer2@test.com"
                      },
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-23 10:05:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-26 15:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-23 10:20:00"),
+                         CreatedDate = DateTime.Parse("2024-09-11 10:05:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-26 15:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-11 10:05:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Tomasz" && p.Sender.Surname == "Wiśniewski"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Tomasz" && p.Sender.Surname == "Wiśniewski").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Floriańska"),
@@ -714,9 +714,9 @@ namespace PostManagementSystem.Data
                      },
 
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-25 11:25:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-28 16:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-25 11:45:00"),
+                         CreatedDate = DateTime.Parse("2024-09-12 11:25:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-28 16:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-12 11:25:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Paweł" && p.Sender.Surname == "Zieliński"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Paweł" && p.Sender.Surname == "Zieliński").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Długa"),
@@ -729,9 +729,9 @@ namespace PostManagementSystem.Data
                      },
 
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-24 13:00:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-27 20:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-24 13:15:00"),
+                         CreatedDate = DateTime.Parse("2024-09-13 13:00:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-27 20:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-13 13:00:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Marek" && p.Sender.Surname == "Szymański"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Marek" && p.Sender.Surname == "Szymański").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Święty Marcin"),
@@ -744,9 +744,9 @@ namespace PostManagementSystem.Data
                      },
 
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-27 16:20:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-30 11:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-27 16:35:00"),
+                         CreatedDate = DateTime.Parse("2024-09-12 16:20:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-30 11:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-12 16:20:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Łukasz" && p.Sender.Surname == "Michalski"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Łukasz" && p.Sender.Surname == "Michalski").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Świdnicka"),
@@ -759,9 +759,9 @@ namespace PostManagementSystem.Data
                      },
 
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-24 18:10:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-27 10:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-24 18:25:00"),
+                         CreatedDate = DateTime.Parse("2024-09-11 18:10:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-27 10:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-11 18:25:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Piotr" && p.Sender.Surname == "Dąbrowski"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Piotr" && p.Sender.Surname == "Dąbrowski").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Długa"),
@@ -774,9 +774,9 @@ namespace PostManagementSystem.Data
                      },
 
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-23 15:50:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-26 13:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-23 16:05:00"),
+                         CreatedDate = DateTime.Parse("2024-09-13 15:50:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-26 13:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-13 16:05:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Grzegorz" && p.Sender.Surname == "Borkowski"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Grzegorz" && p.Sender.Surname == "Borkowski").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Aleja Wyzwolenia"),
@@ -789,9 +789,9 @@ namespace PostManagementSystem.Data
                      },
 
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-25 08:00:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-28 09:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-25 08:15:00"),
+                         CreatedDate = DateTime.Parse("2024-09-12 08:00:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-28 09:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-12 08:15:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Adam" && p.Sender.Surname == "Pawlak"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Adam" && p.Sender.Surname == "Pawlak").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Mokotowska"),
@@ -804,9 +804,9 @@ namespace PostManagementSystem.Data
                      },
 
                      new Delivery {
-                         CreatedDate = DateTime.Parse("2024-08-25 08:00:00"),
-                         ExpectedDeliveryDate = DateTime.Parse("2024-08-28 09:00:00"),
-                         StatusUpdateDate = DateTime.Parse("2024-08-25 08:15:00"),
+                         CreatedDate = DateTime.Parse("2024-09-10 08:00:00"),
+                         ExpectedDeliveryDate = DateTime.Parse("2024-09-28 09:00:00"),
+                         StatusUpdateDate = DateTime.Parse("2024-09-10 08:15:00"),
                          Package = Packages.FirstOrDefault(p => p.Sender.Name == "Julia" && p.Sender.Surname == "Lewandowska"),
                          PackageID = Packages.FirstOrDefault(p => p.Sender.Name == "Julia" && p.Sender.Surname == "Lewandowska").PackageID,
                          SenderPostOffice = postOffices.FirstOrDefault(po => po.Address.Street == "Święty Marcin"),
