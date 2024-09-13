@@ -5,7 +5,10 @@
     <div class="text-center">
         <div style="background-color:#583927; width: 50%; margin: 0 auto" class="center-div page-title-frame">
             <h1>PACK TRACKER</h1>
-            <h3>ADMIN PANEL</h3>
+            @if(User.IsInRole("Admin"))
+            {
+                <h3>ADMIN PANEL</h3>
+            }
         </div>
         <br />
         <br />
